@@ -1,0 +1,1 @@
+INSERT INTO users(username, password, birthday) VALUES('test', 'test123', '2012-08-05');
