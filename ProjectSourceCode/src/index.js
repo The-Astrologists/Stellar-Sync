@@ -66,34 +66,85 @@ app.use(
 // <!-- Section 4 : API Routes -->
 
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.redirect('/home');
 });
   
+
+///// login get and post /////
 app.get('/login', (req, res) => {
   res.render('pages/login');
 });
 
+app.post('/login', async (req, res) => {
+  const username = req.body.username;
+  const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
+
+  db.one(query, [username])
+    .then(async user => {
+      if (!user) {
+        return res.render('pages/register', {
+        });
+      }
+      const match = await bcrypt.compare(req.body.password, user.password);
+      if (!match) {
+        return res.render('pages/login', {
+          message: 'Incorrect username or password',
+          error: true
+        });
+      }
+
+      req.session.user = user;
+      req.session.save();
+      res.redirect('/home');
+    })
+    .catch(err => {
+      res.render('pages/register', {
+      });
+    });
+});
+
+///// register /////
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
+app.post('/register', async (req, res) => {
+  const hash = await bcrypt.hash(req.body.password, 10);
+  const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2, $3)`;
+
+  await db.none(query, [req.body.username, hash, req.body.birthday]).then(courses => {
+      res.redirect('/login');
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/register');
+  });
+});
+
+///// home /////
+app.get('/home', async(req, res) => {
+  res.render('pages/home');
+})
+
+
+///// logout /////
 app.get('/logout', async (req, res) => {
     req.session.destroy()
     res.render('pages/logout');
 });
     
 
-//   // Authentication Middleware.
-// const auth = (req, res, next) => {
-//     if (!req.session.user) {
-//       // Default to login page.
-//       return res.redirect('/login');
-//     }
-//     next();
-//   };
+  // Authentication Middleware.
+const auth = (req, res, next) => {
+    if (!req.session.user) {
+      // Default to login page.
+      return res.redirect('/login');
+    }
+    next();
+  };
   
-//   // Authentication Required
-//   app.use(auth);
+  // Authentication Required
+  app.use(auth);
 
 // TODO - Include your API routes here
 
