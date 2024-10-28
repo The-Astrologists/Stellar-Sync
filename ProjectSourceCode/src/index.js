@@ -95,7 +95,7 @@ app.post('/login', async (req, res) => {
 
       req.session.user = user;
       req.session.save();
-      res.redirect('/discover'); // Redirect to a protected page (e.g., /discover)
+      res.redirect('/home');
     })
     .catch(err => {
       res.render('pages/register', {
@@ -110,9 +110,9 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
-  const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2)`;
+  const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2, $3)`;
 
-  await db.none(query, [req.body.username, hash]).then(courses => {
+  await db.none(query, [req.body.username, hash, req.body.birthday]).then(courses => {
       res.redirect('/login');
     })
     .catch(err => {
@@ -120,6 +120,11 @@ app.post('/register', async (req, res) => {
       res.redirect('/register');
   });
 });
+
+///// home /////
+app.get('/home', async(req, res) => {
+  res.render('pages/home');
+})
 
 
 ///// logout /////
