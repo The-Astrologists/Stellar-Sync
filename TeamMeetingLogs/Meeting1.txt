@@ -1,0 +1,27 @@
+Tuesday October 29, 2024 1:30-1:45
+---------------------------------- 
+
+All group members present 
+
+General outline for meetings will go over the following: 
+
+Group grade is based on -  
+   Look at project board
+   Make sure code on main branch 
+   Talk about release notes updates
+   Talk about plan for next week 
+   Feature demonstrations if applicable
+      - intedned to help with acountability 
+
+Individual grades based on: 
+   If you make it to the meeting 
+   Consistent commits throughout the week
+   Tracked through meaningful github commits
+
+- Until thrusday to finish lab 9 requirements
+- Dont forget to finish prelab quizes
+- Lab 11, and lab 13 are both skill based
+- Lab 12 is project worktimes
+
+
+
