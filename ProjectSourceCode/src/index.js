@@ -9,7 +9,8 @@ const pgp = require('pg-promise')(); // To connect to the Postgres DB from the n
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
-const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part C.
+const axios = require('axios');
+const { Configuration, OpenAIApi } = require('openai'); //openai
 
 // <!-- Section 2 : Connect to DB -->
 
@@ -19,6 +20,11 @@ const hbs = handlebars.create({
   layoutsDir: __dirname + '/views/layouts',
   partialsDir: __dirname + '/views/partials',
 });
+
+//open ai
+const openai = new OpenAIApi(
+  new Configuration({ apiKey: process.env.OPENAI_API_KEY })
+);
 
 // database configuration
 const dbConfig = {
