@@ -132,6 +132,16 @@ app.get('/home', async(req, res) => {
   res.render('pages/home');
 })
 
+///// friends /////
+app.get('/friends', async (req, res) => {
+  res.render('pages/friends');
+});
+
+///// search /////
+app.get('/search', async (req, res) => {
+  res.render('pages/search');
+});
+
 
 ///// logout /////
 app.get('/logout', async (req, res) => {
