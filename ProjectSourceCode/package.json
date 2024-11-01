@@ -9,8 +9,7 @@
         "express": "^4.6.1",
         "express-session": "1.17.3",
         "pg-promise": "^10.11.1",
-        "nodemon": "2.0.20",
-        "openai": "$4.x.x"
+        "nodemon": "2.0.20"
     },
     "scripts": {
         "prestart": "npm install",
