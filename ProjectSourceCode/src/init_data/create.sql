@@ -1,8 +1,11 @@
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY, 
     username VARCHAR(50), 
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
     password CHAR(60) NOT NULL, 
-    birthday DATE NOT NULL
+    birthday DATE NOT NULL, 
+    sign VARCHAR(20)
 );
 
 CREATE TABLE friendships (
