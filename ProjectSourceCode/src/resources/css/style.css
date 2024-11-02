@@ -3,5 +3,6 @@ h1{
 }
 code{
     color: palegoldenrod !important;
+    background-color: black;
 }
 /* the relative path to this file does not work */

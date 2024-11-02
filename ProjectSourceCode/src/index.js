@@ -1,10 +1,10 @@
 // <!-- Section 1 : Import Dependencies -->
-
+const path = require('path');
 const express = require('express'); // To build an application server or API
 const app = express();
+app.use('/resources', express.static(path.join(__dirname, 'resources')));
 const handlebars = require('express-handlebars');
 const Handlebars = require('handlebars');
-const path = require('path');
 const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
