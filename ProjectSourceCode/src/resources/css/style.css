@@ -1,8 +1,45 @@
-h1{
-    color: green !important;
-}
-code{
-    color: palegoldenrod !important;
+.nav-link{
+    color: white;
     background-color: black;
 }
-/* the relative path to this file does not work */
+body
+{
+    color: white;
+    background-color: black;
+   /* background-image: url(../img/image.img);*/
+    font-family: serif;
+    text-align: left;
+    font-size: 20px;
+}
+h1{
+    font-family: cursive;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 45px;
+}
+code{
+    color: white;
+    background-color: black;
+    font-family: serif;
+    text-align: center;
+    font-size: 16px;
+}
+p
+{
+    text-align: left;
+    font-size: 16px;
+}
+
+/*button stylng*/
+.btn-primary{
+    background-color: white;
+    color: black;
+}
+
+.btn-primary:hover{
+    color: white;
+    background-color: black;
+    border: 2px solid white; 
+    
+}
