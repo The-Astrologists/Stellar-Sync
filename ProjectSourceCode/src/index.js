@@ -116,6 +116,7 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
+  //call to api to get the sign for this user, add to the user db sign attribute
   const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2, $3)`;
 
   await db.none(query, [req.body.username, hash, req.body.birthday]).then(courses => {
