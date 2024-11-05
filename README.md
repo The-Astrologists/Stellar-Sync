@@ -28,3 +28,9 @@ Docker
 
 
 
+# Release Notes
+- updated home screen outline
+- login and register working
+- css file applying to all pages
+- nav bar implemented and working
+- login authentication complete 
