@@ -6,7 +6,7 @@ body
 {
     color: white;
     background-color: black;
-   /* background-image: url(../img/image.img);*/
+    background-image: url(../img/background.img);
     font-family: serif;
     text-align: left;
     font-size: 20px;
@@ -16,6 +16,14 @@ h1{
     background-color: black;
     color: white;
     text-align: center;
+    font-size: 45px;
+}
+h2
+{
+    font-family: cursive;
+    background-color: black;
+    color: white;
+    text-align: left;
     font-size: 45px;
 }
 code{
@@ -42,4 +50,24 @@ p
     background-color: black;
     border: 2px solid white; 
     
+}
+
+/*for friends search bar*/
+.search{
+border: 2px solid black;
+height: auto;
+width: auto;
+background-color: white;
+color: black;
+font-family: serif;
+}
+
+/* footer styling */
+.footer{
+    color: grey !important;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size:16px;
 }
