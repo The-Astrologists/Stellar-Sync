@@ -1,0 +1,30 @@
+Tuesday November 5, 2024 1:30-1:45
+-----------------------------------
+
+All team members present
+
+General Meeting Outline:
+- Accomplishments from the previous week
+- Feature demonstrations
+- Plans for next week
+
+Main Accomplishments:
+- Home page outline
+- CSS style sheet
+- Nav bar
+- Login and Register
+- Login authentication
+- Everything up and running with Docker
+
+Future Plans
+- search bar
+- fix database issues
+- astrology API
+- start populating homepage
+- open AI API
+- fix styling issues across computers
+
+Reminders
+- meeting and release notes updated every week
+- remember to use branches for code
+
