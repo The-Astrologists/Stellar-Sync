@@ -46,7 +46,7 @@ describe('Testing Add User API', () => {
     chai
       .request(server)
       .post('/register')
-      .send({username: 'John Doe', password: 'freak', birthday: '5'})
+      .send({username: '10', password: '5', birthday: '5'})
       .end((err, res) => {
         expect(res).to.have.status(400);
         //expect(res.body.message).to.equals('Error');
@@ -54,4 +54,5 @@ describe('Testing Add User API', () => {
       });
   });
 });
+
 // ********************************************************************************
