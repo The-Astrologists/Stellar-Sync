@@ -135,10 +135,63 @@ app.get('/home', async(req, res) => {
 
 ///// logout /////
 app.get('/logout', async (req, res) => {
-    req.session.destroy()
+    req.session.destroy();
     res.render('pages/logout');
 });
-    
+
+
+///// test /////
+const { OpenAI } = require('openai')
+require('dotenv').config()
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+})
+
+const generateAnswer = async () => {
+  const response = await openai.chat.completions.create({
+    messages: [
+      { role: 'user', content: 'Give me a horoscope and three songs based on that horoscope. I am a Capricorn.' },
+    ],
+    model: 'gpt-4o-mini',
+  })
+
+  console.log(response.choices[0].message.content)
+}
+
+app.get('/horoscope', async (req, res) => {
+  res.render('pages/horoscope');
+});
+
+  generateAnswer()
+
+  const generateMeta = async (title)=>{
+      const description = await openai.createChatCompletion({
+          model: 'gpt-3.5-turbo',
+          messages: [
+              {
+                  role: 'user',
+                  content: `Come up with a description called ${title}`
+              }
+          ],
+          max_tokens: 100
+      })
+
+
+      console.log(description.data.choices[0].message);
+  }
+
+  const readline = require('readline');
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  rl.question(generateMeta);
+
+  
+
+
 
   // Authentication Middleware.
 const auth = (req, res, next) => {
