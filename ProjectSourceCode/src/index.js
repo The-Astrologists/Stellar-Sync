@@ -1,10 +1,10 @@
 // <!-- Section 1 : Import Dependencies -->
-
+const path = require('path');
 const express = require('express'); // To build an application server or API
 const app = express();
+app.use('/resources', express.static(path.join(__dirname, 'resources')));
 const handlebars = require('express-handlebars');
 const Handlebars = require('handlebars');
-const path = require('path');
 const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
@@ -71,6 +71,11 @@ app.use(
 
 // <!-- Section 4 : API Routes -->
 
+//testing
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
 app.get('/', (req, res) => {
     res.redirect('/home');
 });
@@ -116,6 +121,7 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
+  //call to api to get the sign for this user, add to the user db sign attribute
   const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2, $3)`;
 
   await db.none(query, [req.body.username, hash, req.body.birthday]).then(courses => {
@@ -127,10 +133,32 @@ app.post('/register', async (req, res) => {
   });
 });
 
+// Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
+
+// Authentication Required
+app.use(auth);
+
 ///// home /////
 app.get('/home', async(req, res) => {
   res.render('pages/home');
 })
+
+///// friends /////
+app.get('/friends', async (req, res) => {
+  res.render('pages/friends');
+});
+
+///// search /////
+app.get('/search', async (req, res) => {
+  res.render('pages/search');
+});
 
 
 ///// logout /////
@@ -138,7 +166,6 @@ app.get('/logout', async (req, res) => {
     req.session.destroy();
     res.render('pages/logout');
 });
-
 
 ///// test /////
 /*const { OpenAI } = require('openai')
@@ -242,5 +269,5 @@ const auth = (req, res, next) => {
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-app.listen(3000);
+module.exports = app.listen(3000);
 console.log('Server is listening on port 3000');

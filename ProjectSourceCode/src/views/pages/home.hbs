@@ -1,6 +1,57 @@
 {{> header}}
-<h1>test</h1>
 
-<code>hello</code>
+<div style = "border: 1px solid white; margin-top: 100px; margin-left: 180px; margin-right: 180px; border-radius: 20px">
+   <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/aquarius.jpg" class="rounded-circle" alt="profile picture" /> <!-- image for testing purposes -->
+   <!--will work once sign attribute is properly assigned to the -->
+   {{#if this.sign}}
+      {{#if (eq this.sign 'aquarius')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="/resources/img/aquarius.jpg" class="rounded circle" alt="Aquarius profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'aries')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="/resources/img/aries.jpg" class="rounded circle" alt="Aries profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'cancer')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/cancer.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'capricorn')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/capricorn.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'gemini')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/gemini.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'leo')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/leo.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'libra')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/libra.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'pisces')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/pisces.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'sagittatius')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/sagittarius.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'scorpio')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/scorpio.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'taurus')}}
+         <img align = "left" src="../../resources/img/taurus.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+      {{#if (eq this.sign 'virgo')}}
+         <img align = "left" width = '150' style = " margin-top: 5px; margin-left: 10px; margin-bottom: 10px;" src="../../resources/img/virgo.jpg" class="rounded circle" alt="profile picture" />
+      {{/if}}
+   {{else}}
+      <p>No image available</p>
+   {{/if}}
+   <h3 style = "margin-left: 200px; margin-top: 20px; color: white; display: block;"> Name: {{this.first_name}} {{this.last_name}}</h1>
+   <h3 style = "margin-left: 200px; margin-top: 20px; color: white; display: block;"> Sign: {{this.sign}}</h1>
+   <h3 style = "margin-left: 200px; margin-top: 20px; color: white; display: block;"> Birthday: {{this.birthday}}</h1>
+</div>
+
+<div style = "border: 1px solid white; margin-top: 20px; margin-left:180px; margin-right:180px; border-radius: 20px; padding-left: 20px; padding-top: 15px">
+   <h2> About you...</h1>
+   <p> auto generated info about this users sign </p>
+</div>
+
 
 {{> footer}}
