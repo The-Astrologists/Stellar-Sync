@@ -248,18 +248,6 @@ app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');
 });
   
-
-
-
-  // Authentication Middleware.
-const auth = (req, res, next) => {
-    if (!req.session.user) {
-      // Default to login page.
-      return res.redirect('/login');
-    }
-    next();
-  };
-  
   // Authentication Required
   app.use(auth);
 

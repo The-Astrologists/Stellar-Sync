@@ -11,7 +11,6 @@
         "express-session": "^1.18.1",
         "nodemon": "^3.1.7",
         "openai": "^4.71.1",
-        "express-session": "1.17.3",
         "handlebars": "^4.7.8",
         "pg-promise": "^10.11.1"
     },
