@@ -128,8 +128,9 @@ app.post('/register', async (req, res) => {
       res.redirect('/login');
     })
     .catch(err => {
-      console.log(err);
-      res.redirect('/register');
+      //console.log(err);
+      res.status(400);
+      res.render('pages/register');
   });
 });
 

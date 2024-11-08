@@ -35,7 +35,7 @@ describe('Testing Add User API', () => {
       .post('/register')
       .send({username: 'John Doe', password: 'freak', birthday: '2020-02-20'})
       .end((err, res) => {
-        console.log(res);
+        //console.log(res);
         expect(res).to.have.status(200);
         //expect(res.body.message).to.equals('Success');
         done();
