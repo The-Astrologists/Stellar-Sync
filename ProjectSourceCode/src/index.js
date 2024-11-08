@@ -141,7 +141,7 @@ app.get('/logout', async (req, res) => {
 
 
 ///// test /////
-const { OpenAI } = require('openai')
+/*const { OpenAI } = require('openai')
 require('dotenv').config()
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
@@ -188,7 +188,38 @@ app.get('/horoscope', async (req, res) => {
   })
 
   rl.question(generateMeta);
+*/
 
+const { OpenAI } = require('openai');
+require('dotenv').config();
+app.use(express.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+app.post('/horoscope', async (req, res) => {
+  const zodiacSign = req.body.zodiacSign;
+  const prompt = `Give me a horoscope and three songs based on that horoscope for a ${zodiacSign}.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+
+    const horoscope = response.choices[0].message.content;
+    res.json({ horoscope });
+  } catch (error) {
+    console.error("Error generating horoscope:", error);
+    res.status(500).json({ msg: "Unable to generate horoscope at this time." });
+  }
+});
+
+// Serve the horoscope.hbs file when requested (assuming you're using a view engine)
+app.get('/horoscope', (req, res) => {
+  res.render('pages/horoscope');
+});
   
 
 
