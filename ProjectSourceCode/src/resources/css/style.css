@@ -101,3 +101,22 @@ font-family: serif;
     gap: 338px; 
     max-width: 100%; 
  }
+
+ .search-container {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;      /* Centers vertically */          
+  }
+  
+  .search-bar {
+    color: black;
+    background-color: white;
+    text-align: left;
+    height: 50px;
+    width: 500px;
+    outline:black;
+    }
+
+ 
+
+
