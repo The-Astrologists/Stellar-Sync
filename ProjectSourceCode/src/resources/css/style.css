@@ -13,7 +13,7 @@ body
     font-size: 20px;
 }
 h1{
-    font-family: cursive;
+    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
     background-color: black;
     color: white;
     text-align: center;
@@ -21,7 +21,7 @@ h1{
 }
 h2
 {
-    font-family: cursive;
+    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
     background-color: black;
     color: white;
     text-align: left;
