@@ -6,7 +6,8 @@ body
 {
     color: white;
     background-color: black;
-   /* background-image: url(../img/image.img);*/
+    background-image: url(../img/background.img);
+    background-position: fixed;
     font-family: serif;
     text-align: left;
     font-size: 20px;
@@ -30,6 +31,12 @@ p
     text-align: left;
     font-size: 16px;
 }
+p1
+{
+    text-align: center;
+    font-size: 16px;
+    color: black;
+}
 
 /*button stylng*/
 .btn-primary{
@@ -43,3 +50,46 @@ p
     border: 2px solid white; 
     
 }
+
+/*for friends search bar*/
+.search{
+border: 2px solid black;
+height: auto;
+width: auto;
+background-color: white;
+color: black;
+font-family: serif;
+}
+
+/* footer styling */
+.footer{
+    color: grey !important;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size:16px;
+}
+.transparent-background-grey {
+    background-color: rgba(255, 255, 255, 0.627); /* Semi-transparent grey */
+}
+.transparent-background-black {
+    background-color: rgba(255, 255, 255, 0.406); /* Semi-transparent grey */
+}
+.image-container {
+    display: flex;
+    justify-content: center; 
+    gap: 250px; 
+    max-width: 100%; 
+  }
+.image-container img {
+    width: 10%; 
+    height: auto; 
+}
+.text-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center; 
+    gap: 338px; 
+    max-width: 100%; 
+  }
