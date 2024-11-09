@@ -19,6 +19,14 @@ h1{
     text-align: center;
     font-size: 45px;
 }
+h2
+{
+    font-family: cursive;
+    background-color: black;
+    color: white;
+    text-align: left;
+    font-size: 45px;
+}
 code{
     color: white;
     background-color: black;
@@ -92,4 +100,4 @@ font-family: serif;
     justify-content: center; 
     gap: 338px; 
     max-width: 100%; 
-  }
+ }

@@ -71,6 +71,11 @@ app.use(
 
 // <!-- Section 4 : API Routes -->
 
+//testing
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
 app.get('/', (req, res) => {
     res.redirect('/home');
 });
@@ -123,10 +128,23 @@ app.post('/register', async (req, res) => {
       res.redirect('/login');
     })
     .catch(err => {
-      console.log(err);
-      res.redirect('/register');
+      //console.log(err);
+      res.status(400);
+      res.render('pages/register');
   });
 });
+
+// Authentication Middleware.
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    return res.redirect('/login');
+  }
+  next();
+};
+
+// Authentication Required
+app.use(auth);
 
 ///// home /////
 app.get('/home', async(req, res) => {
@@ -146,19 +164,90 @@ app.get('/search', async (req, res) => {
 
 ///// logout /////
 app.get('/logout', async (req, res) => {
-    req.session.destroy()
+    req.session.destroy();
     res.render('pages/logout');
 });
-    
 
-  // Authentication Middleware.
-const auth = (req, res, next) => {
-    if (!req.session.user) {
-      // Default to login page.
-      return res.redirect('/login');
-    }
-    next();
-  };
+///// test /////
+/*const { OpenAI } = require('openai')
+require('dotenv').config()
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+})
+
+const generateAnswer = async () => {
+  const response = await openai.chat.completions.create({
+    messages: [
+      { role: 'user', content: 'Give me a horoscope and three songs based on that horoscope. I am a Capricorn.' },
+    ],
+    model: 'gpt-4o-mini',
+  })
+
+  console.log(response.choices[0].message.content)
+}
+
+app.get('/horoscope', async (req, res) => {
+  res.render('pages/horoscope');
+});
+
+  generateAnswer()
+
+  const generateMeta = async (title)=>{
+      const description = await openai.createChatCompletion({
+          model: 'gpt-3.5-turbo',
+          messages: [
+              {
+                  role: 'user',
+                  content: `Come up with a description called ${title}`
+              }
+          ],
+          max_tokens: 100
+      })
+
+
+      console.log(description.data.choices[0].message);
+  }
+
+  const readline = require('readline');
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  rl.question(generateMeta);
+*/
+
+const { OpenAI } = require('openai');
+require('dotenv').config();
+app.use(express.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+app.post('/horoscope', async (req, res) => {
+  const zodiacSign = req.body.zodiacSign;
+  const prompt = `Give me a horoscope and three songs based on that horoscope for a ${zodiacSign}.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+
+    const horoscope = response.choices[0].message.content;
+    res.json({ horoscope });
+  } catch (error) {
+    console.error("Error generating horoscope:", error);
+    res.status(500).json({ msg: "Unable to generate horoscope at this time." });
+  }
+});
+
+// Serve the horoscope.hbs file when requested (assuming you're using a view engine)
+app.get('/horoscope', (req, res) => {
+  res.render('pages/horoscope');
+});
   
   // Authentication Required
   app.use(auth);
@@ -169,5 +258,5 @@ const auth = (req, res, next) => {
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-app.listen(3000);
+module.exports = app.listen(3000);
 console.log('Server is listening on port 3000');

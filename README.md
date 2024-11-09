@@ -26,5 +26,3 @@ Docker
 
 # Link to Stellar Sync:
 
-
-
