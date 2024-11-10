@@ -83,7 +83,12 @@ app.get('/', (req, res) => {
 
 ///// login get and post /////
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  res.render('pages/login',
+  {
+   username: req.session.username,
+   sign: req.session.sign,
+   birthday: req.session.birthday,
+  });
 });
 
 app.post('/login', async (req, res) => {
@@ -103,6 +108,9 @@ app.post('/login', async (req, res) => {
           error: true
         });
       }
+      req.session.username = user.username;
+      req.session.birthday = user.birthday;
+      req.session.zodiacSign = user.zodiacSign;
 
       req.session.user = user;
       req.session.save();
@@ -148,7 +156,12 @@ app.use(auth);
 
 ///// home /////
 app.get('/home', async(req, res) => {
-  res.render('pages/home');
+  const truncatedbday = req.session.birthday.substring(0,10);
+  res.render('pages/home', {
+    username: req.session.username,
+   birthday: truncatedbday,
+    sign: req.session.sign,
+  });
 })
 
 ///// friends /////

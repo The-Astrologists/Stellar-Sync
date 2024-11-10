@@ -2,9 +2,16 @@
 <h1>Create Your Constellation of Friends</h1>
 
 
+<form id="form2" action="/friends" method="GET">
+
 <div class="search-container">
-  <input class="search-bar" type="text" placeholder="Find friends among the stars...">
+  <input class="search-bar" type="text" id="searchvalue" placeholder="Find friends among the stars...">
+  <button type="submit"> Search </button>
   </form>
+  <p id="output"></p>
+  <ul id="searchResults"> </ul>
 </div>
+
+<script src = "script.js" ></script>
 
 {{> footer}}
