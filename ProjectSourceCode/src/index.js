@@ -114,6 +114,9 @@ app.post('/login', async (req, res) => {
 
       req.session.user = user;
       req.session.save();
+
+      // console.log("Birthday:", user.birthday);
+      // console.log("Calculated Zodiac Sign:", user.zodiacSign);
       res.redirect('/home');
     })
     .catch(err => {
@@ -121,6 +124,46 @@ app.post('/login', async (req, res) => {
       });
     });
 });
+
+function getSign(birthday) {
+  const date = new Date(birthday);
+  const month = date.getUTCMonth() + 1; 
+  const day = date.getUTCDate();
+
+  const zodiacSigns = [
+      { sign: "Capricorn", start: { month: 12, day: 22 }, end: { month: 1, day: 19 } },
+      { sign: "Aquarius", start: { month: 1, day: 20 }, end: { month: 2, day: 18 } },
+      { sign: "Pisces", start: { month: 2, day: 19 }, end: { month: 3, day: 20 } },
+      { sign: "Aries", start: { month: 3, day: 21 }, end: { month: 4, day: 19 } },
+      { sign: "Taurus", start: { month: 4, day: 20 }, end: { month: 5, day: 20 } },
+      { sign: "Gemini", start: { month: 5, day: 21 }, end: { month: 6, day: 20 } },
+      { sign: "Cancer", start: { month: 6, day: 21 }, end: { month: 7, day: 22 } },
+      { sign: "Leo", start: { month: 7, day: 23 }, end: { month: 8, day: 22 } },
+      { sign: "Virgo", start: { month: 8, day: 23 }, end: { month: 9, day: 22 } },
+      { sign: "Libra", start: { month: 9, day: 23 }, end: { month: 10, day: 22 } },
+      { sign: "Scorpio", start: { month: 10, day: 23 }, end: { month: 11, day: 21 } },
+      { sign: "Sagittarius", start: { month: 11, day: 22 }, end: { month: 12, day: 21 } },
+      { sign: "Capricorn", start: { month: 12, day: 22 }, end: { month: 12, day: 31 } } 
+  ];
+
+  for (const zodiac of zodiacSigns) {
+      const startMonth = zodiac.start.month;
+      const startDay = zodiac.start.day;
+      const endMonth = zodiac.end.month;
+      const endDay = zodiac.end.day;
+
+      if (
+          (month === startMonth && day >= startDay) ||
+          (month === endMonth && day <= endDay)
+      ) {
+          return zodiac.sign;
+      }
+  }
+
+  return "Unknown"; 
+}
+
+
 
 ///// register /////
 app.get('/register', (req, res) => {
@@ -130,9 +173,10 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   //call to api to get the sign for this user, add to the user db sign attribute
-  const query = `INSERT INTO users (username, password, birthday) VALUES ($1, $2, $3)`;
-
-  await db.none(query, [req.body.username, hash, req.body.birthday]).then(courses => {
+  const sign = getSign(req.body.birthday) 
+  const query = `INSERT INTO users (username, password, birthday, sign) VALUES ($1, $2, $3, $4)`; 
+  await db.none(query, [req.body.username, hash, req.body.birthday, sign]).then(courses => { 
+  
       res.redirect('/login');
     })
     .catch(err => {
