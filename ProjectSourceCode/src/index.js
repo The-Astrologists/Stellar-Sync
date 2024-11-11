@@ -137,6 +137,8 @@ app.post('/login', async (req, res) => {
     });
 });
 
+
+///// functions /////
 function getSign(birthday) {
   const date = new Date(birthday.substring(0,10));
   const month = date.getUTCMonth() + 1; 
@@ -174,6 +176,66 @@ function getSign(birthday) {
 
   return "Unknown"; 
 }
+
+const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
+  ['Capricorn', `Capricorn is the tenth sign of the zodiac, symbolized by the Goat, representing ambition, discipline, and patience. 
+    Governed by Saturn, Capricorns are highly responsible, practical, and determined to achieve their long-term goals. 
+    Key Traits: Ambitious & Goal-Oriented: Capricorns strive for success. Responsible: They are reliable and fulfill their commitments. 
+    Pragmatic: Practicality defines their approach. Strengths: Discipline, patience, resourcefulness Weaknesses: Can be overly serious or pessimistic.`],
+
+  ['Aquarius', `Aquarius is the eleventh sign of the zodiac, symbolized by the Water Bearer, which represents the flow of knowledge and life. 
+    Governed by Uranus, Aquarians are seen as innovative, independent, and forward-thinking. They are natural visionaries with a deep desire to improve the world. 
+    Key Traits: Innovative & Original: Thrives on new ideas. Independent: Values freedom. Humanitarian: Strong sense of social justice. 
+    Strengths: Visionary thinking, open-mindedness, empathy Weaknesses: Aloof, stubborn, struggles with intimacy.`],
+
+  ['Pisces', `Pisces is the twelfth sign of the zodiac, symbolized by the Fish, representing empathy, intuition, and imagination. 
+    Governed by Neptune, Pisceans are compassionate and highly intuitive. Key Traits: Empathetic & Compassionate: Sensitive to others' needs. 
+    Creative: Vivid imagination. Intuitive: Strong inner knowing. Strengths: Kindness, creativity, adaptability Weaknesses: Overly trusting, escapist, idealistic.`],
+
+  ['Aries', `Aries is the first sign of the zodiac, symbolized by the Ram, representing courage, initiative, and drive. 
+    Governed by Mars, Aries individuals are bold, ambitious, and natural leaders. Key Traits: Energetic & Passionate: Approaches life with excitement. 
+    Bold & Adventurous: Fearless. Straightforward: Values honesty. Strengths: Courage, confidence, decisiveness 
+    Weaknesses: Impulsiveness, impatience, can be confrontational.`],
+
+  ['Taurus', `Taurus is the second sign of the zodiac, symbolized by the Bull, representing stability, patience, and resilience. 
+    Governed by Venus, Taureans are reliable and grounded. Key Traits: Reliable & Loyal: Dependable and loyal to loved ones. 
+    Patient & Steady: Prefers a slow, steady approach. Appreciative of Beauty: Loves comfort and aesthetics. 
+    Strengths: Perseverance, reliability, practicality Weaknesses: Stubborn, resistant to change, can be possessive.`],
+
+  ['Gemini', `Gemini is the third sign of the zodiac, symbolized by the Twins, representing adaptability and communication. 
+    Governed by Mercury, Geminis are curious and versatile. Key Traits: Adaptable & Quick-Witted: Able to adjust easily. 
+    Communicative: Loves to share ideas. Curious: Always eager to learn. Strengths: Versatility, intellect, social skills 
+    Weaknesses: Indecisive, easily distracted, can be superficial.`],
+
+  ['Cancer', `Cancer is the fourth sign of the zodiac, symbolized by the Crab, representing sensitivity and loyalty. 
+    Governed by the Moon, Cancers are nurturing and deeply connected to their emotions. 
+    Key Traits: Caring & Protective: Cancers are empathetic caregivers. Intuitive: Has a strong emotional intuition. Loyal: Devoted to family and friends. 
+    Strengths: Compassion, loyalty, imagination Weaknesses: Moody, sensitive, can be clingy.`],
+
+  ['Leo', `Leo is the fifth sign of the zodiac, symbolized by the Lion, representing confidence, passion, and leadership. 
+    Governed by the Sun, Leos are charismatic and natural leaders. Key Traits: Confident & Bold: Leos are courageous.
+     Generous: Loves to help and support others. Creative: Often has a flair for drama. Strengths: Confidence, warmth, generosity 
+     Weaknesses: Can be arrogant, stubborn, attention-seeking.`],
+
+  ['Virgo', `Virgo is the sixth sign of the zodiac, symbolized by the Maiden, representing diligence, analysis, and practicality. 
+    Governed by Mercury, Virgos are meticulous and helpful. Key Traits: Analytical & Detail-Oriented: Loves precision. 
+    Practical: Focused on real-world solutions. Modest: Often humble. Strengths: Organization, reliability, problem-solving 
+    Weaknesses: Overly critical, can be a perfectionist, sometimes worry-prone.`],
+
+  ['Libra', `Libra is the seventh sign of the zodiac, symbolized by the Scales, representing balance, harmony, and justice. 
+    Governed by Venus, Libras are diplomatic and value fairness. Key Traits: Diplomatic & Charming: Skilled in resolving conflicts. 
+    Fair-minded: Strives for balance in all things. Social: Loves being around people. Strengths: Fairness, charm, social skills Weaknesses: Indecisive, can be self-indulgent, avoids conflict.`],
+
+  ['Scorpio', `Scorpio is the eighth sign of the zodiac, symbolized by the Scorpion, representing intensity, passion, and mystery. 
+    Governed by Pluto and Mars, Scorpios are powerful and transformative. Key Traits: Intense & Passionate: Emotions run deep. 
+    Mysterious: Often keeps things private. Loyal: Deeply committed to relationships. Strengths: Determination, resourcefulness, loyalty Weaknesses: Can be jealous, secretive, sometimes vengeful.`],
+
+  ['Sagittarius', `Sagittarius is the ninth sign of the zodiac, symbolized by the Archer, representing exploration, optimism, and adventure. 
+    Governed by Jupiter, Sagittarians are free-spirited and open-minded. Key Traits: Adventurous & Independent: Loves exploring. 
+    Optimistic: Sees the positive side. Philosophical: Enjoys deep conversations. Strengths: Enthusiasm, honesty, curiosity 
+    Weaknesses: Can be blunt, restless, sometimes overconfident.`],
+];
+
 
 
 
@@ -238,56 +300,6 @@ app.get('/logout', async (req, res) => {
     req.session.destroy();
     res.render('pages/logout');
 });
-
-///// test /////
-/*const { OpenAI } = require('openai')
-require('dotenv').config()
-const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
-})
-
-const generateAnswer = async () => {
-  const response = await openai.chat.completions.create({
-    messages: [
-      { role: 'user', content: 'Give me a horoscope and three songs based on that horoscope. I am a Capricorn.' },
-    ],
-    model: 'gpt-4o-mini',
-  })
-
-  console.log(response.choices[0].message.content)
-}
-
-app.get('/horoscope', async (req, res) => {
-  res.render('pages/horoscope');
-});
-
-  generateAnswer()
-
-  const generateMeta = async (title)=>{
-      const description = await openai.createChatCompletion({
-          model: 'gpt-3.5-turbo',
-          messages: [
-              {
-                  role: 'user',
-                  content: `Come up with a description called ${title}`
-              }
-          ],
-          max_tokens: 100
-      })
-
-
-      console.log(description.data.choices[0].message);
-  }
-
-  const readline = require('readline');
-
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-
-  rl.question(generateMeta);
-*/
 
 const { OpenAI } = require('openai');
 require('dotenv').config();
