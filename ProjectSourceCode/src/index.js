@@ -19,6 +19,9 @@ const hbs = handlebars.create({
   extname: 'hbs',
   layoutsDir: __dirname + '/views/layouts',
   partialsDir: __dirname + '/views/partials',
+  helpers: {
+    eq: (a, b) => a === b, 
+  }
 });
 
 //open ai
@@ -115,8 +118,8 @@ app.post('/login', async (req, res) => {
       req.session.user = user;
       req.session.save();
 
-      // console.log("Birthday:", user.birthday);
-      // console.log("Calculated Zodiac Sign:", user.zodiacSign);
+      console.log("user sign in login:", user.sign);
+
       res.redirect('/home');
     })
     .catch(err => {
@@ -126,7 +129,7 @@ app.post('/login', async (req, res) => {
 });
 
 function getSign(birthday) {
-  const date = new Date(birthday);
+  const date = new Date(birthday.substring(0,10));
   const month = date.getUTCMonth() + 1; 
   const day = date.getUTCDate();
 
@@ -176,7 +179,7 @@ app.post('/register', async (req, res) => {
   const sign = getSign(req.body.birthday) 
   const query = `INSERT INTO users (username, password, birthday, sign) VALUES ($1, $2, $3, $4)`; 
   await db.none(query, [req.body.username, hash, req.body.birthday, sign]).then(courses => { 
-  
+      //console.log("sign in register", sign);
       res.redirect('/login');
     })
     .catch(err => {
