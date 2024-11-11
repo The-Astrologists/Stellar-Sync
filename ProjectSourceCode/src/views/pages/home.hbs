@@ -52,11 +52,34 @@
 <div>
    <div style = "border: 1px solid white; margin-top: 40px; margin-left: 180px; margin-right: 180px; margin-bottom: 50px;">
    <h3 style = "text-align: center;"> About you...</h3>
-   <p style= " text-align: center ;margin: 20px 90px;"> Aquarius is the eleventh sign of the zodiac, symbolized by the Water Bearer, which represents the flow of knowledge and life. Governed by the planet Uranus, Aquarians are often seen as innovative, independent, and forward-thinking. They are natural visionaries, driven by a deep desire to improve the world and push the boundaries of conventional thought.
+   <p id="horoscopeDisplay" style= " text-align: center ;margin: 20px 90px;"> Aquarius is the eleventh sign of the zodiac, symbolized by the Water Bearer, which represents the flow of knowledge and life. Governed by the planet Uranus, Aquarians are often seen as innovative, independent, and forward-thinking. They are natural visionaries, driven by a deep desire to improve the world and push the boundaries of conventional thought.
       Key Traits: Innovative & Original: Aquarians thrive on creating and exploring new ideas, often being ahead of their time. Independent: They value their freedom and prefer to carve their own path, unbound by societal expectations.
    Humanitarian: With a strong sense of social justice, they are passionate about making the world a better place. Intellectual & Curious: Aquarians love to engage in deep conversations and explore abstract concepts. Unconventional: They often challenge norms and are not afraid to stand out from the crowd. Strengths: Visionary thinking Open-mindedness Strong problem-solving skills Empathy for global issues Weaknesses: Can be aloof or detached Stubbornness in their beliefs May struggle with emotional intimacy</p>
    </div>
 </div>
+
+    <script>
+      console.log("hi");
+        async function loadHoroscopes() {
+            try {
+                const response = await fetch('/horoscopes');
+                const horoscopes = await response.json();
+                
+                // Display horoscopes on the page
+                const displayDiv = document.getElementById('horoscopeDisplay');
+                {{!-- horoscopes.forEach(([sign, description]) => {
+                    const horoscopeDiv = document.createElement('div');
+                    horoscopeDiv.innerHTML = `<h2>${sign}</h2><p>${description}</p>`;
+                    displayDiv.appendChild(horoscopeDiv);
+                }); --}}
+                displayDiv.innerHTML = `{{this.sign}}: {{this.description}}`;
+            } catch (error) {
+                console.error("Error loading horoscopes:", error);
+            }
+        }
+
+        loadHoroscopes();
+    </script>
 
 </div>
 
