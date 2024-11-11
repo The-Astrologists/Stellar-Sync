@@ -80,7 +80,12 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/home');
+    res.redirect('/landing');
+});
+
+///// landing page /////\
+app.get('/landing', (req, res) => {
+  res.render('pages/landing');
 });
   
 
@@ -209,7 +214,7 @@ app.get('/home', async(req, res) => {
    birthday: truncatedbday,
     sign: req.session.sign,
   });
-})
+});
 
 ///// friends /////
 app.get('/friends', async (req, res) => {

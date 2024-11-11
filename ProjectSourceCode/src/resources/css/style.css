@@ -27,6 +27,22 @@ h2
     text-align: left;
     font-size: 45px;
 }
+h4
+{
+    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    padding-top: 50px;
+    color: white;
+    text-align: center;
+    font-size: 70px;
+}
+h5
+{
+    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    padding-top: 50px;
+    color: white;
+    text-align: center;
+    font-size: 45px;
+}
 code{
     color: white;
     background-color: black;
@@ -56,8 +72,61 @@ p1
     color: white;
     background-color: black;
     border: 2px solid white; 
-    
 }
+
+.btn-secondary{
+    background-color: white;
+    color: black;
+    font-size: 30px;
+}
+
+.btn-secondary:hover{
+    color: white;
+    background-color: black;
+    border: 2px solid white; 
+}
+
+/* Container for the entire team grid */
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    justify-items: center; /* Center all items */
+    text-align: center;
+    padding-bottom: 50px;
+    padding-right: 80px; 
+    padding-left: 80px;
+}
+
+/* Meet the team styling */ 
+.team-member {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+/* Profile picture */
+.profile-image img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Profile description */
+.person-description {
+    max-width: 200px;
+}
+
+.center-member {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
 
 /*for friends search bar*/
 .search{
