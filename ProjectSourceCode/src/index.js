@@ -278,12 +278,56 @@ app.use(auth);
 ///// home /////
 app.get('/home', async(req, res) => {
   const truncatedbday = req.session.birthday.substring(0,10);
+  const sign = req.session.sign;
+  let description = ''
+  switch(sign){
+    case 'Capricorn':
+      description = horoscopes[0][1];
+      break;
+    case 'Aquarius':
+      description = horoscopes[1][1];
+      break;
+    case 'Pisces':
+      description = horoscopes[2][1];
+      break;
+    case 'Aries':
+      description = horoscopes[3][1];
+      break;
+    case 'Taurus':
+      description = horoscopes[4][1];
+      break;
+    case 'Gemini':
+      description = horoscopes[5][1];
+      break;
+    case 'Cancer':
+      description = horoscopes[6][1];
+      break;
+    case 'Leo':
+      description = horoscopes[7][1];
+      break;
+    case 'Virgo':
+      description = horoscopes[8][1];
+      break;
+    case 'Libra':
+      description = horoscopes[9][1];
+      break;
+    case 'Scorpio':
+      description = horoscopes[10][1];
+      break;
+    case 'Sagittarius':
+      description = horoscopes[11][1];
+
+      
+
+  }
+
   res.render('pages/home', {
     username: req.session.username,
     birthday: truncatedbday,
     sign: req.session.sign,
     last_name: req.session.last_name,
     first_name: req.session.first_name,
+    description: description,
   });
 });
 

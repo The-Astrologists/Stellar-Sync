@@ -72,7 +72,7 @@
                     horoscopeDiv.innerHTML = `<h2>${sign}</h2><p>${description}</p>`;
                     displayDiv.appendChild(horoscopeDiv);
                 }); --}}
-                displayDiv.innerHTML = `${horoscopes[0][0]}: ${horoscopes[0][1]}`;
+                displayDiv.innerHTML = `{{this.sign}}: {{this.description}}`;
             } catch (error) {
                 console.error("Error loading horoscopes:", error);
             }
