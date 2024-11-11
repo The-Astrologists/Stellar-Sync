@@ -169,6 +169,7 @@ app.get('/friends', async (req, res) => {
   res.render('pages/friends');
 });
 
+
 ///// search /////
 app.get('/search', async (req, res) => {
   res.render('pages/search');
