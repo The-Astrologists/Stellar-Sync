@@ -96,6 +96,8 @@ app.get('/login', (req, res) => {
    username: req.session.username,
    sign: req.session.sign,
    birthday: req.session.birthday,
+   last_name: req.session.last_name,
+   first_name: req.session.first_name,
   });
 });
 
@@ -116,9 +118,11 @@ app.post('/login', async (req, res) => {
           error: true
         });
       }
+      req.session.last_name = user.last_name,
+      req.session.first_name = user.first_name,
       req.session.username = user.username;
       req.session.birthday = user.birthday;
-      req.session.zodiacSign = user.zodiacSign;
+      req.session.sign = user.sign;
 
       req.session.user = user;
       req.session.save();
@@ -182,8 +186,8 @@ app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   //call to api to get the sign for this user, add to the user db sign attribute
   const sign = getSign(req.body.birthday) 
-  const query = `INSERT INTO users (username, password, birthday, sign) VALUES ($1, $2, $3, $4)`; 
-  await db.none(query, [req.body.username, hash, req.body.birthday, sign]).then(courses => { 
+  const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6)`; 
+  await db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(courses => { 
       //console.log("sign in register", sign);
       res.redirect('/login');
     })
@@ -211,8 +215,10 @@ app.get('/home', async(req, res) => {
   const truncatedbday = req.session.birthday.substring(0,10);
   res.render('pages/home', {
     username: req.session.username,
-   birthday: truncatedbday,
+    birthday: truncatedbday,
     sign: req.session.sign,
+    last_name: req.session.last_name,
+    first_name: req.session.first_name,
   });
 });
 
