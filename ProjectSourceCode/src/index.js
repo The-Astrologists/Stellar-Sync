@@ -127,8 +127,6 @@ app.post('/login', async (req, res) => {
       req.session.user = user;
       req.session.save();
 
-      console.log("user sign in login:", user.sign);
-
       res.redirect('/home');
     })
     .catch(err => {
@@ -374,7 +372,8 @@ app.post('/horoscope', async (req, res) => {
   }
 });
 
-// Serve the horoscope.hbs file when requested (assuming you're using a view engine)
+
+// Serve the horoscope.hbs file when requested 
 app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');
 });
