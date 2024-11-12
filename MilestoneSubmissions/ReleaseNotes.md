@@ -1,5 +1,18 @@
 # Release Notes
 
+# 11/12/2024
+NEW FEATURES
+- added icon on website tab
+- develeoped functional landing page
+- font styling issue resolved
+- added search bar element to friends page (need to implement)
+- sign, birthday, and name printing on home page
+- added first and last name requirements to register page
+- further styling of profile (previously called home page)
+- zodiac sign saved in database
+- profile picture now reflects accurate zodiac sign
+- generated profile horoscope (array that is implemented in home page)
+
 # 11/5/2024
 NEW FEATURES
 - Implemented home screen outline for users
