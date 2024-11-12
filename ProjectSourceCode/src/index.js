@@ -374,6 +374,24 @@ app.post('/horoscope', async (req, res) => {
   }
 });
 
+app.post('/song-recommendation', async (req, res) => {
+  const zodiacSign = req.body.zodiacSign;
+  const prompt = `Suggest a song recommendation for someone with the zodiac sign ${zodiacSign}.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+
+    const songRecommendation = response.choices[0].message.content;
+    res.json({ songRecommendation });
+  } catch (error) {
+    console.error("Error generating song recommendation:", error);
+    res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
+  }
+});
+
 // Serve the horoscope.hbs file when requested (assuming you're using a view engine)
 app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');
