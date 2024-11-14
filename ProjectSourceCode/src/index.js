@@ -396,6 +396,16 @@ app.get('/friends', async (req, res) => {
   res.render('pages/friends');
 });
 
+app.get('/friends', async (req, res) => {
+  try {
+    const friends = await db.query('SELECT user_ID FROM friendships'); // Adjust this to match your table and columns
+    res.render('friends', { friends: friends.rows }); // Pass the data to the template
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).send("Error loading friends");
+  }
+});
+
 ///// search /////
 app.get('/search', async (req, res) => {
   res.render('pages/search');
