@@ -339,6 +339,7 @@ app.post('/register', async (req, res) => {
    })
   .catch(err => {
     console.log('error here');
+    res.status(400);
     console.log(err);
     return res.render('pages/register');
   });
