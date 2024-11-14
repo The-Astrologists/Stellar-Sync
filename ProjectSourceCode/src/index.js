@@ -152,7 +152,7 @@ app.post('/login', async (req, res) => {
 
   for (let i = 0; i < userarr.length; i++) {
     const hash = await bcrypt.hash(userarr[i].pwd, 10);
-    const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6)`; 
+    const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
     await db.none(query, [userarr[i].fname, userarr[i].lname, userarr[i].uname, hash, userarr[i].bday, userarr[i].zsign]).then(courses => { 
       //console.log('added default users');
       //console.log(userarr[i].fname);
@@ -311,7 +311,7 @@ app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   //call to api to get the sign for this user, add to the user db sign attribute
   const sign = getSign(req.body.birthday) 
-  const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6)`; 
+  const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6);`; 
   await db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(courses => { 
       //console.log("sign in register", sign);
       res.redirect('/login');
