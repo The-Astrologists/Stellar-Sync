@@ -396,10 +396,11 @@ app.get('/friends', async (req, res) => {
   res.render('pages/friends');
 });
 
-app.get('/friends', async (req, res) => {
+app.get('/friendsAdd', async (req, res) => {
   try {
-    const friends = await db.query('SELECT user_ID FROM friendships'); // Adjust this to match your table and columns
-    res.render('friends', { friends: friends.rows }); // Pass the data to the template
+    const searchValue = req.query.searchvalue;
+    const friends = await db.query('SELECT username, birthday FROM users WHERE username ILIKE $1', [searchValue]);
+    res.json(friends);
   } catch (error) {
     console.error('Database query error:', error);
     res.status(500).send("Error loading friends");
