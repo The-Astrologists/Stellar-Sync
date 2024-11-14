@@ -427,7 +427,7 @@ const openai = new OpenAI({
 });
 
 app.post('/horoscope', async (req, res) => {
-  const zodiacSign = req.body.zodiacSign;
+  const zodiacSign = req.body.zodiacSign;  //how is this working on attribute zodiacSign
   const prompt = `Give me a horoscope and three songs based on that horoscope for a ${zodiacSign}.`;
 
   try {
@@ -444,8 +444,26 @@ app.post('/horoscope', async (req, res) => {
   }
 });
 
+app.post('/dailyAffirmation', async (req, res) => {
+  const sign = req.body.sign;  //how is this working on attribute zodiacSign
+  const prompt = `Give me a daily affrimation for a ${sign} that is about a sentence long.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+
+    const dailyAffirmation = response.choices[0].message.content;
+    res.json({ dailyAffirmation});
+  } catch (error) {
+    console.error("Error generating affirmation:", error);
+    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
+  }
+});
+
 app.post('/song-recommendation', async (req, res) => {
-  const zodiacSign = req.body.zodiacSign;
+  const zodiacSign = req.body.sign;
   const prompt = `Suggest a song recommendation for someone with the zodiac sign ${zodiacSign}.`;
 
   try {
