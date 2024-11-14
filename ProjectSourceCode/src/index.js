@@ -399,7 +399,7 @@ app.get('/friends', async (req, res) => {
 app.get('/friendsAdd', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
-    const friends = await db.query('SELECT username, birthday FROM users WHERE username ILIKE $1', [searchValue]);
+    const friends = await db.query('SELECT username, birthday FROM users WHERE username = $1;', [searchValue]);
     res.json(friends);
   } catch (error) {
     console.error('Database query error:', error);
