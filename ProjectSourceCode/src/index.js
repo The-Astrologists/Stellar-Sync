@@ -311,16 +311,39 @@ app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   //call to api to get the sign for this user, add to the user db sign attribute
   const sign = getSign(req.body.birthday) 
-  const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6);`; 
-  await db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(courses => { 
-      //console.log("sign in register", sign);
-      res.redirect('/login');
-    })
-    .catch(err => {
-      //console.log(err);
-      res.status(400);
-      res.render('pages/register');
+
+  const duplicate = req.body.username;
+  //console.log(duplicate);
+  const query2 = `SELECT * FROM users WHERE username = $1;`
+  db.oneOrNone(query2, [duplicate])
+  .then(data => {
+    //console.log('data', data);
+    if (!data) {
+      const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
+       db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(data => { 
+          //console.log("sign in register", sign);
+          res.redirect('/login');
+        })
+        .catch(err => {
+          //console.log(err);
+          res.status(400);
+          console.log('error somehow');
+          return res.render('pages/register');
+      });
+      return res.redirect('/login');
+    }
+    return res.render('pages/register', {
+      message: 'Username already exists',
+      error: true
+    });
+   })
+  .catch(err => {
+    console.log('error here');
+    console.log(err);
+    return res.render('pages/register');
   });
+
+
 });
 
 // Authentication Middleware.
