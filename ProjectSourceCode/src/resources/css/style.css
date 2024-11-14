@@ -2,6 +2,9 @@
     color: white;
     background-color: black;
 }
+.nav-link:hover {
+    color: black;  
+}
 body
 {
     color: white;
