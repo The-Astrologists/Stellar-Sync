@@ -374,7 +374,7 @@ app.post('/horoscope', async (req, res) => {
 
 app.post('/dailyAffirmation', async (req, res) => {
   const sign = req.body.sign;  //how is this working on attribute zodiacSign
-  const prompt = `Give me a daily affirmation for a ${sign} that is about a sentence long.`;
+  const prompt = `Give me a daily affrimation for a ${sign} that is about a sentence long.`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -383,7 +383,7 @@ app.post('/dailyAffirmation', async (req, res) => {
     });
 
     const dailyAffirmation = response.choices[0].message.content;
-    res.json({ dailyAffirmation });
+    res.json({ dailyAffirmation});
   } catch (error) {
     console.error("Error generating affirmation:", error);
     res.status(500).json({ msg: "Unable to generate affirmation at this time." });
