@@ -190,6 +190,15 @@ font-family: serif;
     outline:black;
     }
 
- 
+#searchResults {
+    color: black;
+    font-size: 18px;
+    background-color: lightgray;
+    padding: 10px;
+    list-style-type: none;
+    width: 500px;
+    margin: 0 auto; 
+    text-align: center;
+    }
 
 
