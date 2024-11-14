@@ -102,6 +102,68 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  const user1 = {
+    uname: 'JaneDoe',
+    fname: 'Jane',
+    lname: 'Doe',
+    bday: '2012-08-05',
+    pwd: 'test123',
+    zsign: 'Leo',
+  }
+
+  const user2 = {
+    uname: 'JohnDoe',
+    fname: 'John',
+    lname: 'Doe',
+    bday: '2001-09-07',
+    pwd: 'test456',
+    zsign: 'Virgo',
+  }
+
+  const user3 = {
+    uname: 'sue',
+    fname: 'Susane',
+    lname: 'Smith',
+    bday: '1980-12-20',
+    pwd: 'test789',
+    zsign: 'Sagittarius',
+  }
+
+  const user4 = {
+    uname: 'Bob',
+    fname: 'Bobby',
+    lname: 'Joe',
+    bday: '1999-04-01',
+    pwd: 'test101',
+    zsign: 'Aries',
+  }
+
+  const user5 = {
+    uname: 'AnnaJ',
+    fname: 'Anna',
+    lname: 'Johnson',
+    bday: '2000-02-29',
+    pwd: 'test102',
+    zsign: 'Pisces',
+  }
+
+
+  const userarr = [user1, user2, user3, user4, user5];
+
+  for (let i = 0; i < userarr.length; i++) {
+    const hash = await bcrypt.hash(userarr[i].pwd, 10);
+    const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6)`; 
+    await db.none(query, [userarr[i].fname, userarr[i].lname, userarr[i].uname, hash, userarr[i].bday, userarr[i].zsign]).then(courses => { 
+      //console.log('added default users');
+      //console.log(userarr[i].fname);
+      //console.log(hash);
+    })
+    .catch(err => {
+      res.status(400);
+      //console.log('error in adding default');
+  });
+  }
+
   const username = req.body.username;
   const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
 
