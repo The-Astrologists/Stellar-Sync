@@ -408,6 +408,32 @@ app.post('/song-recommendation', async (req, res) => {
   }
 });
 
+///// test /////
+app.get('/daily-data', async (req, res) => {
+  const { userID, zodiacSign } = req.query;
+  const today = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+
+  // // Check if data for today already exists
+  // let userData = await getUserData(userID, today); // Custom function to get data from DB
+
+  // if (!userData) {
+  //   // Generate new data if no data for today
+  //   const songRecommendation = await fetchSongRecommendation(zodiacSign);
+  //   const dailyAffirmation = await fetchDailyAffirmation(zodiacSign);
+
+  //   // Save the generated data to the database
+  //   userData = await saveUserData(userID, {
+  //     date: today,
+  //     songRecommendation,
+  //     dailyAffirmation,
+  //   });
+  // }
+
+  // res.json(userData);
+});
+
+
+
 
 app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');

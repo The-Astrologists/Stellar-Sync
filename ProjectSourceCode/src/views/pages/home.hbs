@@ -130,13 +130,33 @@
     songDiv.innerHTML = `<p>Error: Could not fetch recommendation at this time.</p>`;
   }
 }
+   // test function for daily rec testing
+  {{!-- async function fetchDailyRecommendations(user_id, zodiacSign) {
+    const response = await fetch(`/daily-recommendations?userID=${user_id}&zodiacSign=${zodiacSign}`);
+    const data = await response.json();
+    // Process or display the recommendations
+    console.log(data.recommendations);
+  } --}}
+
+  // Example usage
+  const user_id = `{{this.user_id}}`;  
+  const zodiacSign = `{{this.sign}}`;  
+
+   async function loadDailyData() {
+   const response = await fetch(`/daily-data?userID={{userID}}&zodiacSign={{this.sign}}`);
+   const data = await response.json();
+
+   document.getElementById('song-recommendation').innerText = data.songRecommendation;
+   document.getElementById('daily-affirmation').innerText = data.dailyAffirmation;
+}
 
   // Automatically fetch recommendation on page load with a default zodiac sign
   window.onload = function() {
-    const zodiacSign = `{{this.sign}}`; // Set the default zodiac sign, or prompt the user for input
+    const zodiacSign = `{{this.sign}}`;
     fetchSongRecommendation(zodiacSign, 1, 'song-1');
    fetchSongRecommendation(zodiacSign, 2, 'song-2');
    fetchSongRecommendation(zodiacSign, 3, 'song-3');
+   loadDailyData();
   };
 </script>
 
