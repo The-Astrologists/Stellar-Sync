@@ -2,9 +2,6 @@
     color: white;
     background-color: black;
 }
-.nav-link:hover {
-    color: black;  
-}
 body
 {
     color: white;
@@ -95,7 +92,7 @@ p1
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 20px;
-    justify-items: center; /* Center all items */
+    justify-items: center;
     text-align: center;
     padding-bottom: 50px;
     padding-right: 80px; 
