@@ -79,41 +79,34 @@
    <img align = "left" width = '400' style = " margin-top: 30px; margin-left: 100px; margin-bottom: 30px;" src="../../resources/img/black_constelations.png" class = "rounded-circle" alt="chart picture" />
    <div style = "border: 1px solid black; margin-top: 100px; margin-left: 600px; margin-right: 180px;">
       <h3 style= "margin-top: 50px; margin-left: 40px;text-align: center; color: black;">Your daily horoscope: </h3>
-      <div style= "margin: 20px 100px;">
-         <p1 id="affirmationDisplay">You’re feeling an extra spark of creativity and innovation today, Aquarius. Ideas that may have seemed out of reach before now feel within your grasp. Your unique perspective will shine, and others may seek your insight. Embrace your individuality and don’t shy away from standing out.</p1>
+      <div id="affirmationDisplay" style= "margin: 20px 100px;">
+         <p id="test"></p>
       </div>
    </div>
-
-   
-   <script>
-      console.log("hello in dailyAffirmationDisplay");
-        async function loadDailyAffirmation({{sign}}) {
-            const affirmationDisplay = document.getElementById('affirmationDisplay');
+</div>
+<script>
+        async function loadDailyAffirmation(sign) {
+            const affirmationDisplay = document.getElementById('test');
+            affirmationDisplay.innerHTML = `<p>hello</p>`;
             try {
                const response = await fetch('/dailyAffirmation', {
                   method: 'POST', 
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({{sign}})
+                  body: JSON.stringify(sign)
                });
 
                if (response.ok) {
                   const data = await response.json();
-                  affirmationDisplay.innerHTML = `<p>${data.dailyAffirmation}</p>`;
+                  affirmationDisplay.innerHTML = `<p1>${data.dailyAffirmation}</p1>`;
                } else {
-                  affirmationDisplay.innerHTML = `<p>Error: Unable to retrieve affirmation.</p>`;
+                  affirmationDisplay.innerHTML = `<p1>Error: Unable to retrieve affirmation.</p1>`;
                }
             } catch (error) {
                 console.error("Error loading horoscopes:", error);
-                affirmationDisplay.innerHTML = `<p>Error: Could not fetch affirmation at this time.</p>`;
+                affirmationDisplay.innerHTML = `<p1>Error: Could not fetch affirmation at this time.</p1>`;
             }
         }
-         window.onload = function() {
-            const zodiacSign = "Leo"; // Set the default zodiac sign, or prompt the user for input
-            loadDailyAffirmation(zodiacSign); //shoulf be {{sign}}
-         };
-        
     </script>
-</div>
 
 
 <div class = "transparent-background-grey"> 
@@ -160,6 +153,8 @@
   window.onload = function() {
     const zodiacSign = "Leo"; // Set the default zodiac sign, or prompt the user for input
     fetchSongRecommendation(zodiacSign);
+             const sign = `{{this.sign}}`; 
+         loadDailyAffirmation(sign);
   };
 </script>
 

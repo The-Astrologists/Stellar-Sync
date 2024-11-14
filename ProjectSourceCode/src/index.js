@@ -382,7 +382,7 @@ app.post('/dailyAffirmation', async (req, res) => {
       model: 'gpt-3.5-turbo',
     });
 
-    const horoscope = response.choices[0].message.content;
+    const dailyAffirmation = response.choices[0].message.content;
     res.json({ dailyAffirmation });
   } catch (error) {
     console.error("Error generating affirmation:", error);
