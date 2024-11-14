@@ -373,8 +373,26 @@ app.post('/horoscope', async (req, res) => {
 });
 
 app.post('/song-recommendation', async (req, res) => {
-  const zodiacSign = req.body.zodiacSign;
-  const prompt = `Suggest a song recommendation for someone with the zodiac sign ${zodiacSign}.`;
+  const { zodiacSign, songNumber } = req.body;
+  let genre = '';
+
+  switch (songNumber) {
+    case 1:
+      genre = 'R&B';
+      break;
+    case 2:
+      genre = 'rap';
+      break;
+    case 3:
+      genre = 'country';
+      break;
+    default:
+      res.status(400).json({ msg: "Invalid song number." });
+      return;
+  }
+
+  const prompt = `Suggest one ${genre} song recommendation for someone with the zodiac sign ${zodiacSign}
+  without explaining why.`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -389,6 +407,7 @@ app.post('/song-recommendation', async (req, res) => {
     res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
   }
 });
+
 
 app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');
