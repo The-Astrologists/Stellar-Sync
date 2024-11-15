@@ -488,8 +488,26 @@ app.post('/dailyAffirmation', async (req, res) => {
 });
 
 app.post('/song-recommendation', async (req, res) => {
-  const zodiacSign = req.body.sign;
-  const prompt = `Suggest a song recommendation for someone with the zodiac sign ${zodiacSign}.`;
+  const { zodiacSign, songNumber } = req.body;
+  let genre = '';
+
+  switch (songNumber) {
+    case 1:
+      genre = 'R&B';
+      break;
+    case 2:
+      genre = 'rap';
+      break;
+    case 3:
+      genre = 'country';
+      break;
+    default:
+      res.status(400).json({ msg: "Invalid song number." });
+      return;
+  }
+
+  const prompt = `Suggest one ${genre} song recommendation for someone with the zodiac sign ${zodiacSign}
+  without explaining why.`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -504,6 +522,33 @@ app.post('/song-recommendation', async (req, res) => {
     res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
   }
 });
+
+///// test /////
+app.get('/daily-data', async (req, res) => {
+  const { userID, zodiacSign } = req.query;
+  const today = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+
+  // // Check if data for today already exists
+  // let userData = await getUserData(userID, today); // Custom function to get data from DB
+
+  // if (!userData) {
+  //   // Generate new data if no data for today
+  //   const songRecommendation = await fetchSongRecommendation(zodiacSign);
+  //   const dailyAffirmation = await fetchDailyAffirmation(zodiacSign);
+
+  //   // Save the generated data to the database
+  //   userData = await saveUserData(userID, {
+  //     date: today,
+  //     songRecommendation,
+  //     dailyAffirmation,
+  //   });
+  // }
+
+  // res.json(userData);
+});
+
+
+
 
 app.get('/horoscope', (req, res) => {
   res.render('pages/horoscope');
