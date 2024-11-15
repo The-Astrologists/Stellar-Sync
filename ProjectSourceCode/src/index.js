@@ -415,25 +415,26 @@ app.get('/home', async(req, res) => {
   });
 });
 
-///// friends /////
-app.get('/friends', async (req, res) => {
-  res.render('pages/friends');
+///// search /////
+app.get('/search', async (req, res) => {
+  res.render('pages/search');
 });
 
 app.get('/friendsAdd', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
+    //const sessionUsername = req.session.username;
+
+    //const userResult = await db.query('SELECT id FROM users WHERE username = $1;', [sessionUsername]);
+
     const friends = await db.query('SELECT username, birthday FROM users WHERE username = $1;', [searchValue]);
     res.json(friends);
+
+
   } catch (error) {
     console.error('Database query error:', error);
     res.status(500).send("Error loading friends");
   }
-});
-
-///// search /////
-app.get('/search', async (req, res) => {
-  res.render('pages/search');
 });
 
 
