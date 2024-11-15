@@ -102,6 +102,68 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  const user1 = {
+    uname: 'JaneDoe',
+    fname: 'Jane',
+    lname: 'Doe',
+    bday: '2012-08-05',
+    pwd: 'test123',
+    zsign: 'Leo',
+  }
+
+  const user2 = {
+    uname: 'JohnDoe',
+    fname: 'John',
+    lname: 'Doe',
+    bday: '2001-09-07',
+    pwd: 'test456',
+    zsign: 'Virgo',
+  }
+
+  const user3 = {
+    uname: 'sue',
+    fname: 'Susane',
+    lname: 'Smith',
+    bday: '1980-12-20',
+    pwd: 'test789',
+    zsign: 'Sagittarius',
+  }
+
+  const user4 = {
+    uname: 'Bob',
+    fname: 'Bobby',
+    lname: 'Joe',
+    bday: '1999-04-01',
+    pwd: 'test101',
+    zsign: 'Aries',
+  }
+
+  const user5 = {
+    uname: 'AnnaJ',
+    fname: 'Anna',
+    lname: 'Johnson',
+    bday: '2000-02-29',
+    pwd: 'test102',
+    zsign: 'Pisces',
+  }
+
+
+  const userarr = [user1, user2, user3, user4, user5];
+
+  for (let i = 0; i < userarr.length; i++) {
+    const hash = await bcrypt.hash(userarr[i].pwd, 10);
+    const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
+    await db.none(query, [userarr[i].fname, userarr[i].lname, userarr[i].uname, hash, userarr[i].bday, userarr[i].zsign]).then(courses => { 
+      //console.log('added default users');
+      //console.log(userarr[i].fname);
+      //console.log(hash);
+    })
+    .catch(err => {
+      res.status(400);
+      //console.log('error in adding default');
+  });
+  }
+
   const username = req.body.username;
   const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
 
@@ -114,7 +176,7 @@ app.post('/login', async (req, res) => {
       const match = await bcrypt.compare(req.body.password, user.password);
       if (!match) {
         return res.render('pages/login', {
-          message: 'Incorrect username or password',
+          message: 'Incorrect password',
           error: true
         });
       }
@@ -249,16 +311,40 @@ app.post('/register', async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, 10);
   //call to api to get the sign for this user, add to the user db sign attribute
   const sign = getSign(req.body.birthday) 
-  const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6)`; 
-  await db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(courses => { 
-      //console.log("sign in register", sign);
-      res.redirect('/login');
-    })
-    .catch(err => {
-      //console.log(err);
-      res.status(400);
-      res.render('pages/register');
+
+  const duplicate = req.body.username;
+  //console.log(duplicate);
+  const query2 = `SELECT * FROM users WHERE username = $1;`
+  db.oneOrNone(query2, [duplicate])
+  .then(data => {
+    //console.log('data', data);
+    if (!data) {
+      const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
+       db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(data => { 
+          //console.log("sign in register", sign);
+          res.redirect('/login');
+        })
+        .catch(err => {
+          //console.log(err);
+          res.status(400);
+          console.log('error somehow');
+          return res.render('pages/register');
+      });
+      return res.redirect('/login');
+    }
+    return res.render('pages/register', {
+      message: 'Username already exists',
+      error: true
+    });
+   })
+  .catch(err => {
+    console.log('error here');
+    res.status(400);
+    console.log(err);
+    return res.render('pages/register');
   });
+
+
 });
 
 // Authentication Middleware.
@@ -334,6 +420,17 @@ app.get('/friends', async (req, res) => {
   res.render('pages/friends');
 });
 
+app.get('/friendsAdd', async (req, res) => {
+  try {
+    const searchValue = req.query.searchvalue;
+    const friends = await db.query('SELECT username, birthday FROM users WHERE username = $1;', [searchValue]);
+    res.json(friends);
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).send("Error loading friends");
+  }
+});
+
 ///// search /////
 app.get('/search', async (req, res) => {
   res.render('pages/search');
@@ -355,7 +452,7 @@ const openai = new OpenAI({
 });
 
 app.post('/horoscope', async (req, res) => {
-  const zodiacSign = req.body.zodiacSign;
+  const zodiacSign = req.body.zodiacSign;  //how is this working on attribute zodiacSign
   const prompt = `Give me a horoscope and three songs based on that horoscope for a ${zodiacSign}.`;
 
   try {
@@ -369,6 +466,24 @@ app.post('/horoscope', async (req, res) => {
   } catch (error) {
     console.error("Error generating horoscope:", error);
     res.status(500).json({ msg: "Unable to generate horoscope at this time." });
+  }
+});
+
+app.post('/dailyAffirmation', async (req, res) => {
+  const sign = req.body.sign;  //how is this working on attribute zodiacSign
+  const prompt = `Give me a daily affrimation for a ${sign} that is about a sentence long.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+
+    const dailyAffirmation = response.choices[0].message.content;
+    res.json({ dailyAffirmation});
+  } catch (error) {
+    console.error("Error generating affirmation:", error);
+    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
   }
 });
 

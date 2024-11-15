@@ -2,6 +2,9 @@
     color: white;
     background-color: black;
 }
+.nav-item:hover {
+    color: black;
+}
 body
 {
     color: white;
@@ -64,6 +67,7 @@ p1
 
 /*button stylng*/
 .btn-primary{
+    border-color: black;
     background-color: white;
     color: black;
 }
@@ -92,7 +96,7 @@ p1
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 20px;
-    justify-items: center; /* Center all items */
+    justify-items: center;
     text-align: center;
     padding-bottom: 50px;
     padding-right: 80px; 
@@ -186,6 +190,15 @@ font-family: serif;
     outline:black;
     }
 
- 
+#searchResults {
+    color: black;
+    font-size: 18px;
+    background-color: lightgray;
+    padding: 10px;
+    list-style-type: none;
+    width: 500px;
+    margin: 0 auto; 
+    text-align: center;
+    }
 
 
