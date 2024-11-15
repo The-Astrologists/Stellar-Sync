@@ -420,6 +420,27 @@ app.get('/search', async (req, res) => {
   res.render('pages/search');
 });
 
+app.get('/friends', async (req, res) => {
+  res.render('pages/friends');
+});
+
+app.get('/viewFriends', async (req, res) => {
+  try {
+    const userId = req.session.userId; // Adjust to match your session logic
+    const friends = await db.query(
+      'SELECT username FROM friendships WHERE user_id = $1',
+      [userId]
+    );
+
+    // Pass stringified JSON to the template
+    res.render('viewFriends', { friends: JSON.stringify(friends.rows) });
+  } catch (error) {
+    console.error('Error fetching friends:', error);
+    res.status(500).send('Error loading friends page.');
+  }
+});
+
+
 app.get('/friendsAdd', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;

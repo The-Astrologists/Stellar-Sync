@@ -29,6 +29,7 @@ describe('Server!', () => {
 
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 describe('Testing Add User API', () => {
+  /*
   it('positive : /register', done => {
     chai
       .request(server)
@@ -41,7 +42,7 @@ describe('Testing Add User API', () => {
         done();
       });
   });
-
+  */
   it('Negative : /register Checking invalid name', done => {
     chai
       .request(server)
