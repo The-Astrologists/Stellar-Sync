@@ -11,13 +11,14 @@ body
     background-color: black;
     background-image: url(../img/background.img);
     background-position: fixed;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     background-attachment: fixed;
-    font-family: serif;
     text-align: left;
     font-size: 20px;
 }
 h1{
-    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
     background-color: black;
     color: white;
     text-align: center;
@@ -25,7 +26,8 @@ h1{
 }
 h2
 {
-    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
     background-color: black;
     color: white;
     text-align: left;
@@ -33,7 +35,8 @@ h2
 }
 h4
 {
-    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
     padding-top: 50px;
     color: white;
     text-align: center;
@@ -41,7 +44,8 @@ h4
 }
 h5
 {
-    font-family: 'Monotype Corsiva','Apple Chancery','ITC Zapf Chancery','URW Chancery L', cursive;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
     padding-top: 50px;
     color: white;
     text-align: center;
@@ -50,7 +54,7 @@ h5
 code{
     color: white;
     background-color: black;
-    font-family: serif;
+    font-family: Georgia;
     text-align: center;
     font-size: 16px;
 }
