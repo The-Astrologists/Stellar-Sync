@@ -79,6 +79,8 @@
    <img align = "left" width = '400' style = " margin-top: 30px; margin-left: 100px; margin-bottom: 30px;" src="../../resources/img/black_constelations.png" class = "rounded-circle" alt="chart picture" />
    <div style = "border: 1px solid black; margin-top: 100px; margin-left: 600px; margin-right: 180px;">
       <h3 style= "margin-top: 50px; margin-left: 40px;text-align: center; color: black;">Your daily horoscope: </h3>
+      <div style= "margin: 20px 100px;">
+         <p1>You're feeling an extra spark of creativity and innovation today, Aquarius. Ideas that may have seemed out of reach before now feel within your grasp. Your unique perspective will shine, and others may seek your insight. Embrace your individuality and don’t shy away from standing out.</p1>
       <div id="affirmationDisplay" style= "margin: 20px 100px; text-align: center;">
       </div>
    </div>
@@ -114,46 +116,67 @@
                   <img src= "../../resources/img/moon.jpg" alt= "image 2" class = "rounded-circle">
                   <img src= "../../resources/img/left_moon.jpg" alt= "image 3" class = "rounded-circle">
       </div>
-      <div class = "text-container" style= "margin-bottom: 100px;">
-         <p1>Song Title</p1>
-         <p1>Song Title</p1>
-         <p1>Song Title</p1>
+      <div id="song-recommendations" class = "text-container" style= "margin-bottom: 100px;">
+         <p1 id="song-1">Song Title</p1>
+         <p1 id="song-2">Song Title</p1>
+         <p1 id="song-3">Song Title</p1>
 
       </div>
 </div>
 
 <script>
   // Function to request a song recommendation
-  async function fetchSongRecommendation(zodiacSign) {
-    const recommendationsDiv = document.getElementById('song-recommendations');
-    recommendationsDiv.innerHTML = "<p>Loading song recommendations...</p>";
+  async function fetchSongRecommendation(zodiacSign, songNumber, songDivId) {
+  const songDiv = document.getElementById(songDivId);
+  songDiv.innerHTML = "<p>Loading song recommendation...</p>";
 
-    try {
-      const response = await fetch('/song-recommendation', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ zodiacSign })
-      });
+  try {
+    const response = await fetch('/song-recommendation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ zodiacSign, songNumber })
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        recommendationsDiv.innerHTML = `<p>${data.songRecommendation}</p>`;
-      } else {
-        recommendationsDiv.innerHTML = `<p>Error: Unable to retrieve recommendation.</p>`;
-      }
-    } catch (error) {
-      console.error("Error fetching song recommendation:", error);
-      recommendationsDiv.innerHTML = `<p>Error: Could not fetch recommendation at this time.</p>`;
+    if (response.ok) {
+      const data = await response.json();
+      songDiv.innerHTML = `<p>${data.songRecommendation}</p>`;
+    } else {
+      songDiv.innerHTML = `<p>Error: Unable to retrieve recommendation.</p>`;
     }
+  } catch (error) {
+    console.error("Error fetching song recommendation:", error);
+    songDiv.innerHTML = `<p>Error: Could not fetch recommendation at this time.</p>`;
   }
+}
+   // test function for daily rec testing
+  {{!-- async function fetchDailyRecommendations(user_id, zodiacSign) {
+    const response = await fetch(`/daily-recommendations?userID=${user_id}&zodiacSign=${zodiacSign}`);
+    const data = await response.json();
+    // Process or display the recommendations
+    console.log(data.recommendations);
+  } --}}
+
+  // Example usage
+  const user_id = `{{this.user_id}}`;  
+  const zodiacSign = `{{this.sign}}`;  
+
+   async function loadDailyData() {
+   const response = await fetch(`/daily-data?userID={{userID}}&zodiacSign={{this.sign}}`);
+   const data = await response.json();
+
+   document.getElementById('song-recommendation').innerText = data.songRecommendation;
+   document.getElementById('daily-affirmation').innerText = data.dailyAffirmation;
+}
 
   // Automatically fetch recommendation on page load with a default zodiac sign
-  {{!-- window.onload = function() {
-            const zodiacSign = "Leo"; // Set the default zodiac sign, or prompt the user for input
-            fetchSongRecommendation(zodiacSign);
-             const sign = `{{this.sign}}`; 
-         loadDailyAffirmation(sign);
-  }; --}}
+  window.onload = function() {
+    const zodiacSign = `{{this.sign}}`;
+    fetchSongRecommendation(zodiacSign, 1, 'song-1');
+   fetchSongRecommendation(zodiacSign, 2, 'song-2');
+   fetchSongRecommendation(zodiacSign, 3, 'song-3');
+   loadDailyData();
+  };
+
 </script>
 
 <div style="border: 1px solid white; margin-top: 100px; margin-left: 180px; margin-right: 180px; margin-bottom: 200px; margin-top: 200px;">

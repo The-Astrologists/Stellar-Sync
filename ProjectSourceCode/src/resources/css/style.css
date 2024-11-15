@@ -12,6 +12,7 @@ body
     background-image: url(../img/background.img);
     background-position: fixed;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    background-attachment: fixed;
     text-align: left;
     font-size: 20px;
 }
