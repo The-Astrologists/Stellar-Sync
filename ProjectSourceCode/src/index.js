@@ -63,6 +63,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
+    cookie: { maxAge: 86400000 }, // Cookie expires in 1 day
   })
 );
 
@@ -83,11 +84,11 @@ app.get('/', (req, res) => {
     res.redirect('/landing');
 });
 
-///// landing page /////\
+///// landing page //////
 app.get('/landing', (req, res) => {
   res.render('pages/landing');
 });
-  
+
 
 ///// login get and post /////
 app.get('/login', (req, res) => {
@@ -444,6 +445,8 @@ app.get('/logout', async (req, res) => {
     res.render('pages/logout');
 });
 
+
+///// openai stuff /////
 const { OpenAI } = require('openai');
 require('dotenv').config();
 app.use(express.json());
@@ -452,109 +455,79 @@ const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_KEY,
 });
 
-app.post('/horoscope', async (req, res) => {
-  const zodiacSign = req.body.zodiacSign;  //how is this working on attribute zodiacSign
-  const prompt = `Give me a horoscope and three songs based on that horoscope for a ${zodiacSign}.`;
 
-  try {
-    const response = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
-    });
+///// song rec /////
+// app.post('/song-recommendation', async (req, res) => {
+//   const { zodiacSign, songNumber } = req.body;
+//   let genre = '';
 
-    const horoscope = response.choices[0].message.content;
-    res.json({ horoscope });
-  } catch (error) {
-    console.error("Error generating horoscope:", error);
-    res.status(500).json({ msg: "Unable to generate horoscope at this time." });
-  }
-});
+//   switch (songNumber) {
+//     case 1:
+//       genre = 'R&B';
+//       break;
+//     case 2:
+//       genre = 'rap';
+//       break;
+//     case 3:
+//       genre = 'country';
+//       break;
+//     default:
+//       res.status(400).json({ msg: "Invalid song number." });
+//       return;
+//   }
 
-app.post('/dailyAffirmation', async (req, res) => {
-  const sign = req.body.sign;  //how is this working on attribute zodiacSign
-  const prompt = `Give me a daily affrimation for a ${sign} that is about a sentence long.`;
+//   const prompt = `Suggest one ${genre} song recommendation for someone with the zodiac sign ${zodiacSign}
+//   without explaining why.`;
 
-  try {
-    const response = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
-    });
+//   try {
+//     const response = await openai.chat.completions.create({
+//       messages: [{ role: 'user', content: prompt }],
+//       model: 'gpt-3.5-turbo',
+//     });
 
-    const dailyAffirmation = response.choices[0].message.content;
-    res.json({ dailyAffirmation});
-  } catch (error) {
-    console.error("Error generating affirmation:", error);
-    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
-  }
-});
-
-app.post('/song-recommendation', async (req, res) => {
-  const { zodiacSign, songNumber } = req.body;
-  let genre = '';
-
-  switch (songNumber) {
-    case 1:
-      genre = 'R&B';
-      break;
-    case 2:
-      genre = 'rap';
-      break;
-    case 3:
-      genre = 'country';
-      break;
-    default:
-      res.status(400).json({ msg: "Invalid song number." });
-      return;
-  }
-
-  const prompt = `Suggest one ${genre} song recommendation for someone with the zodiac sign ${zodiacSign}
-  without explaining why.`;
-
-  try {
-    const response = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
-    });
-
-    const songRecommendation = response.choices[0].message.content;
-    res.json({ songRecommendation });
-  } catch (error) {
-    console.error("Error generating song recommendation:", error);
-    res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
-  }
-});
+//     const songRecommendation = response.choices[0].message.content;
+//     res.json({ songRecommendation });
+//   } catch (error) {
+//     console.error("Error generating song recommendation:", error);
+//     res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
+//   }
+// });
 
 ///// test /////
-app.get('/daily-data', async (req, res) => {
-  const { userID, zodiacSign } = req.query;
-  const today = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+app.post('/song-recommendation', async (req, res) => {
+  const { zodiacSign } = req.body;
 
-  // // Check if data for today already exists
-  // let userData = await getUserData(userID, today); // Custom function to get data from DB
+  // Check if recommendations already exist in the session
+  if (req.session.songRecommendations) {
+      return res.json(req.session.songRecommendations);
+  }
 
-  // if (!userData) {
-  //   // Generate new data if no data for today
-  //   const songRecommendation = await fetchSongRecommendation(zodiacSign);
-  //   const dailyAffirmation = await fetchDailyAffirmation(zodiacSign);
+  // Generate song recommendations
+  const genres = ['R&B', 'rap', 'country'];
+  const songRecommendations = {};
 
-  //   // Save the generated data to the database
-  //   userData = await saveUserData(userID, {
-  //     date: today,
-  //     songRecommendation,
-  //     dailyAffirmation,
-  //   });
-  // }
+  try {
+      for (let i = 0; i < genres.length; i++) {
+          const prompt = `Suggest one ${genres[i]} song recommendation for someone with the zodiac sign ${zodiacSign} without explaining why.`;
 
-  // res.json(userData);
+          const response = await openai.chat.completions.create({
+              messages: [{ role: 'user', content: prompt }],
+              model: 'gpt-3.5-turbo',
+          });
+
+          songRecommendations[`song${i + 1}`] = response.choices[0].message.content;
+      }
+
+      // Save recommendations to the session
+      req.session.songRecommendations = songRecommendations;
+      res.json(songRecommendations);
+  } catch (error) {
+      console.error("Error generating song recommendation:", error);
+      res.status(500).json({ msg: "Unable to generate song recommendations at this time." });
+  }
 });
 
 
-
-
-app.get('/horoscope', (req, res) => {
-  res.render('pages/horoscope');
-});
-  
   // Authentication Required
   app.use(auth);
 
