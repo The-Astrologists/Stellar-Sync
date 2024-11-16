@@ -1,33 +1,39 @@
 {{> header}}
-    <div class="container my-5">
-      <h2>Register</h2>
+
+
+  <div class="transparent-background-black" style=  "margin-top: 100px; margin-left: 500px; margin-right: 500px; margin-bottom: 200px;">
+      <h5>Register</h5>
+      {{> message}}
       <form action="/register" method="POST">
-        <div class="mb-3">
+        <div style= "margin-left: 50px; margin-right: 50px;">
+          <hr style = "color: white;">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required />
         </div>
 
-          <div class="mb-3">
+          <div style= "margin-left: 50px; margin-right: 50px; margin-top: 20px;">
           <label for="firstname" class="form-label">First Name</label>
           <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" required />
         </div>
 
-        <div class="mb-3">
+        <div style= "margin-left: 50px; margin-right: 50px; margin-top: 20px;">
           <label for="lastname" class="form-label">Last Name</label>
           <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your last name" required />
         </div>
 
-        <div class="mb-3">
+        <div style= "margin-left: 50px; margin-right: 50px; margin-top: 20px;">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
         </div>
-        <div class="mb-3">
+        <div style= "margin-left: 50px; margin-right: 50px; margin-top: 20px;">
           <label for="birthday" class="form-label">Birthday</label>
           <input type="date" class="form-control" id="birthday" name="birthday" placeholder="MM/DD/YYYY" required />
         </div>
 
-        <button type="submit" class="btn btn-primary">Join the cosmos!</button>
-        {{> message}}
+        <button style= "display: block; margin: 20px auto 15px; margin-top: 20px; margin-bottom: 15px;" type="submit" class="btn btn-primary">Join the cosmos!</button>
       </form>
     </div>
+
 {{> footer}}
+
+
