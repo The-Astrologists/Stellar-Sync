@@ -412,7 +412,7 @@ app.get('/search', async (req, res) => {
 
 ///// friends /////
 app.get('/friends', (req, res) => {
-  res.render('pages/friends',{
+  res.render('pages/friends', {
     username: req.session.username,
   });
 });
