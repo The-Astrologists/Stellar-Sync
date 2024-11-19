@@ -86,7 +86,9 @@ app.get('/', (req, res) => {
 
 ///// landing page //////
 app.get('/landing', (req, res) => {
-  res.render('pages/landing');
+  res.render('pages/landing', {
+    username: req.session.username,
+  });
 });
 
 
@@ -418,7 +420,9 @@ app.get('/home', async(req, res) => {
 
 ///// search /////
 app.get('/search', async (req, res) => {
-  res.render('pages/search');
+  res.render('pages/search', {
+    username: req.session.username,
+  });
 });
 
 app.get('/friendsAdd', async (req, res) => {
