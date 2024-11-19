@@ -36,12 +36,11 @@
   });
 
   function loadFriends(friends) {
-    console.log("IN LOAD FRIENDS");
     const friendsList = document.getElementById('searchResults');
     friendsList.innerHTML = ''; 
 
     if (friends.length === 0) {
-      friendsList.innerHTML = '<p>No friends found.</p>';
+      friendsList.innerHTML = '<p>No users found.</p>';
     } else {
       const list = document.createElement('ul');
       list.className = 'list-group';
@@ -49,7 +48,8 @@
       friends.forEach(friend => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item';
-        listItem.textContent = "Name: " + friend.username + " --- Birthday: " + friend.birthday.substring(0,10);
+        const friendshipStatus = friend.isFriends ? 'You are already friends!' : 'You are not friends yet';
+        listItem.textContent = "Name: " + friend.username + " --- Sign: " +friend.sign + " --- Birthday: " + friend.birthday.substring(0,10) + " --- " + friendshipStatus;
         list.appendChild(listItem);
       });
 

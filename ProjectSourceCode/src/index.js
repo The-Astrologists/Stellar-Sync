@@ -428,13 +428,35 @@ app.get('/search', async (req, res) => {
 app.get('/friendsAdd', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
-    //const sessionUsername = req.session.username;
+    const sessionUsername = req.session.username;
 
-    //const userResult = await db.query('SELECT id FROM users WHERE username = $1;', [sessionUsername]);
+    const userId = await db.query('SELECT user_id FROM users WHERE username = $1;', [sessionUsername]);
+    const currUserId = userId[0].user_id;
 
-    const friends = await db.query('SELECT username, birthday FROM users WHERE username = $1;', [searchValue]);
+    const friends = await db.query('SELECT username, birthday, sign FROM users WHERE username = $1;', [searchValue]);
+    const searchedUser = await db.query('SELECT user_id FROM users WHERE username = $1;', [searchValue]);
+
+    if (searchedUser && searchedUser.length > 0) {
+      const searchedUserId = searchedUser[0].user_id;
+
+      const friendshipCheck = await db.query(`
+        SELECT EXISTS (
+          SELECT 1
+          FROM friendships
+          WHERE (user_id = $1 AND friend_id = $2)
+          OR (user_id = $2 AND friend_id = $1)
+        );
+      `, [currUserId, searchedUserId]);
+
+      const isFriends = friendshipCheck[0].exists; 
+
+      friends.forEach(friend => {
+        friend.isFriends = isFriends;
+      });
+    }
+    
+
     res.json(friends);
-
 
   } catch (error) {
     console.error('Database query error:', error);
