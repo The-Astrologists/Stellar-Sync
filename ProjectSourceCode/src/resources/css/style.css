@@ -224,5 +224,11 @@ font-family: serif;
     border-color: white;
     color: black;
       }
-      
+
+.button-container{
+    display: flex; 
+    justify-content: right; 
+    padding-right: 55px;
+}
+     
       
