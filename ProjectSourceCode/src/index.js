@@ -444,7 +444,6 @@ app.get('/friendsAdd', async (req, res) => {
         friend.isFriends = isFriends;
       });
     }
-    
 
     res.json(friends);
 
@@ -464,7 +463,7 @@ app.post('/song-recommendation', async (req, res) => {
   }
 
   // Generate song recommendations
-  const genres = ['R&B', 'rap', 'country'];
+  const genres = ['indie', 'cool jazz', 'pop'];
   const songRecommendations = {};
 
   try {
