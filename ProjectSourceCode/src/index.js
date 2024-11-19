@@ -425,6 +425,10 @@ app.get('/search', async (req, res) => {
   });
 });
 
+app.get('/friends', (req, res) => {
+  res.render('pages/friends');
+});
+
 app.get('/friendsAdd', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
