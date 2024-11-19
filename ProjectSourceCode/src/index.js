@@ -298,6 +298,9 @@ const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
     Weaknesses: Can be blunt, restless, sometimes overconfident.`],
 ];
 
+app.get('/horoscopes', (req, res) =>{
+  res.json(horoscopes);
+}); 
 
 ///// register get and post /////
 app.get('/register', (req, res) => {
@@ -471,7 +474,29 @@ app.post('/addFriend', async (req, res) => {
     }
 });
 
-///// song rec /////
+app.post('/dailyAffirmation', async (req, res) => {
+
+  //if the user has already logged in and generated affirmation
+  if (req.session.dailyAffirmation) {
+    return res.json({ dailyAffirmation: req.session.dailyAffirmation }); //must be wrapped in an object to work 
+  }
+  const sign = req.body.sign;  //how is this working on attribute zodiacSign
+  const prompt = `Give me a daily affirmation for a ${sign} that is about a sentence long.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+    const dailyAffirmation = response.choices[0].message.content;
+    req.session.dailyAffirmation = dailyAffirmation;
+    res.json({ dailyAffirmation });
+  } catch (error) {
+    console.error("Error generating affirmation:", error);
+    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
+  }
+});
+
 app.post('/song-recommendation', async (req, res) => {
   const { zodiacSign } = req.body;
 

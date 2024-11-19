@@ -49,21 +49,17 @@
    <div>
       <div style = "border: 1px solid white; margin-top: 40px; margin-left: 180px; margin-right: 180px; margin-bottom: 50px;">
       <h3 style = "text-align: center;"> About you...</h3>
-      <p id="horoscopeDisplay" style= " text-align: center ;margin: 20px 90px;"> Aquarius is the eleventh sign of the zodiac, symbolized by the Water Bearer, which represents the flow of knowledge and life. Governed by the planet Uranus, Aquarians are often seen as innovative, independent, and forward-thinking. They are natural visionaries, driven by a deep desire to improve the world and push the boundaries of conventional thought.
-         Key Traits: Innovative & Original: Aquarians thrive on creating and exploring new ideas, often being ahead of their time. Independent: They value their freedom and prefer to carve their own path, unbound by societal expectations.
-      Humanitarian: With a strong sense of social justice, they are passionate about making the world a better place. Intellectual & Curious: Aquarians love to engage in deep conversations and explore abstract concepts. Unconventional: They often challenge norms and are not afraid to stand out from the crowd. Strengths: Visionary thinking Open-mindedness Strong problem-solving skills Empathy for global issues Weaknesses: Can be aloof or detached Stubbornness in their beliefs May struggle with emotional intimacy</p>
+      <p id="horoscopeDisplay" style= " text-align: center ;margin: 20px 90px;">Fetching your horoscope</p>
       </div>
    </div>
 </div>
 
 <div class = "transparent-background-black"> 
    <img align = "left" width = '400' style = " margin-top: 30px; margin-left: 100px; margin-bottom: 30px;" src="../../resources/img/black_constelations.png" class = "rounded-circle" alt="chart picture" />
-      <div style = "border: 1px solid black; margin-top: 100px; margin-left: 600px; margin-right: 180px;">
-         <h3 style= "margin-top: 50px; margin-left: 40px;text-align: center; color: black;">Your daily horoscope: </h3>
+      <div style = "border: 1px solid black; margin-top: 100px; margin-left: 600px; margin-right: 180px; text-align: center;">
+         <h3 style= "margin-top: 50px; color: black;">Your daily horoscope: </h3>
          <div style= "margin: 20px 100px;">
-            <p1>You're feeling an extra spark of creativity and innovation today, Aquarius. Ideas that may have seemed out of reach before now feel within your grasp. Your unique perspective will shine, and others may seek your insight. Embrace your individuality and don’t shy away from standing out.</p1>
-         <div id="affirmationDisplay" style= "margin: 20px 100px; text-align: center;">
-         </div>
+               <p1 id = "affirmationDisplay">We have not words for you today</p1>
       </div>
    </div>
 </div>
@@ -126,13 +122,13 @@
 
          if (response.ok) {
             const data = await response.json();
-            affirmationDisplay.innerHTML = `<p1>${data.dailyAffirmation}</p1>`;
+            affirmationDisplay.innerHTML = `<p>${data.dailyAffirmation}</p>`;
          } else {
-            affirmationDisplay.innerHTML = `<p1>Error: Unable to retrieve affirmation.</p1>`;
+            affirmationDisplay.innerHTML = `<p>Error: Unable to retrieve affirmation.</p>`;
          }
       } catch (error) {
          console.error("Error loading horoscopes:", error);
-         affirmationDisplay.innerHTML = `<p1>Error: Could not fetch affirmation at this time.</p1>`;
+         affirmationDisplay.innerHTML = `<p>Error: Could not fetch affirmation at this time.</p>`;
       }
    }
 
@@ -180,6 +176,23 @@
          }
       } catch (error) {
          console.error("Error fetching song recommendations:", error);
+      }
+      //dailyAffirmation call
+      try {
+            const response = await fetch('dailyAffirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ zodiacSign })
+         });
+
+         if (response.ok) {
+            const data = await response.json();
+            document.getElementById('affirmationDisplay').textContent = data.dailyAffirmation || 'No daily affirmation';
+         } else {
+            console.error("Failed to load daily affirmation");
+         }
+      } catch (error) {
+         console.error("Error fetching daily affirmation:", error);
       }
 };
 
