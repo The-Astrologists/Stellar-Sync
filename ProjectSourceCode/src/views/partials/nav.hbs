@@ -22,13 +22,17 @@
           <li class="nav-item">
           <a href="/search" class="nav-link">Search</a>
           </li>
+          {{#unless username}} {{!- shows the login button only when the user is not logged in i.e. unless there is a username, show the login button}}
           <li class="nav-item">
           <a href="/login" class="nav-link">Login</a>
           </li>
+          {{/unless}}
        </ul>
+        {{#if username}} {{!- shows the logout part of the navbar only when the user is logged in, a user cannot log out if they are not logged in}}
        <div class="nav-item me-1">
          <a href="/logout" class="nav-link">Logout</a>
        </div>
+       {{/if}}
      </div>
    </div>
  </nav>
