@@ -10,7 +10,15 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcryptjs'); //  To hash passwords
 const axios = require('axios');
-// const { Configuration, OpenAIApi } = require('openai'); //openai
+
+///// openai config /////
+const { OpenAI } = require('openai');
+require('dotenv').config();
+app.use(express.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_KEY,
+});
 
 // <!-- Section 2 : Connect to DB -->
 
@@ -23,11 +31,6 @@ const hbs = handlebars.create({
     eq: (a, b) => a === b, 
   }
 });
-
-//open ai
-// const openai = new OpenAIApi(
-//   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
-// );
 
 // database configuration
 const dbConfig = {
@@ -75,7 +78,7 @@ app.use(
 
 // <!-- Section 4 : API Routes -->
 
-//testing
+///// testing /////
 app.get('/welcome', (req, res) => {
   res.json({status: 'success', message: 'Welcome!'});
 });
@@ -157,13 +160,9 @@ app.post('/login', async (req, res) => {
     const hash = await bcrypt.hash(userarr[i].pwd, 10);
     const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
     await db.none(query, [userarr[i].fname, userarr[i].lname, userarr[i].uname, hash, userarr[i].bday, userarr[i].zsign]).then(courses => { 
-      //console.log('added default users');
-      //console.log(userarr[i].fname);
-      //console.log(hash);
     })
     .catch(err => {
       res.status(400);
-      //console.log('error in adding default');
   });
   }
 
@@ -299,13 +298,8 @@ const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
     Weaknesses: Can be blunt, restless, sometimes overconfident.`],
 ];
 
-app.get('/horoscopes', (req, res) =>{
-  res.json(horoscopes);
-});
 
-
-
-///// register /////
+///// register get and post /////
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
@@ -316,19 +310,15 @@ app.post('/register', async (req, res) => {
   const sign = getSign(req.body.birthday) 
 
   const duplicate = req.body.username;
-  //console.log(duplicate);
   const query2 = `SELECT * FROM users WHERE username = $1;`
   db.oneOrNone(query2, [duplicate])
   .then(data => {
-    //console.log('data', data);
     if (!data) {
       const query = `INSERT INTO users (first_name, last_name, username, password, birthday, sign) VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (username) DO NOTHING;`; 
        db.none(query, [req.body.first_name, req.body.last_name, req.body.username, hash, req.body.birthday, sign]).then(data => { 
-          //console.log("sign in register", sign);
           res.redirect('/login');
         })
         .catch(err => {
-          //console.log(err);
           res.status(400);
           console.log('error somehow');
           return res.render('pages/register');
@@ -346,11 +336,9 @@ app.post('/register', async (req, res) => {
     console.log(err);
     return res.render('pages/register');
   });
-
-
 });
 
-// Authentication Middleware.
+///// Authentication Middleware /////
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
@@ -403,9 +391,6 @@ app.get('/home', async(req, res) => {
       break;
     case 'Sagittarius':
       description = horoscopes[11][1];
-
-      
-
   }
 
   res.render('pages/home', {
@@ -425,6 +410,7 @@ app.get('/search', async (req, res) => {
   });
 });
 
+///// friends /////
 app.get('/friends', (req, res) => {
   res.render('pages/friends');
 });
@@ -468,62 +454,7 @@ app.get('/friendsAdd', async (req, res) => {
   }
 });
 
-
-///// logout /////
-app.get('/logout', async (req, res) => {
-    req.session.destroy();
-    res.render('pages/logout');
-});
-
-
-///// openai stuff /////
-const { OpenAI } = require('openai');
-require('dotenv').config();
-app.use(express.json());
-
-const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
-});
-
-
 ///// song rec /////
-// app.post('/song-recommendation', async (req, res) => {
-//   const { zodiacSign, songNumber } = req.body;
-//   let genre = '';
-
-//   switch (songNumber) {
-//     case 1:
-//       genre = 'R&B';
-//       break;
-//     case 2:
-//       genre = 'rap';
-//       break;
-//     case 3:
-//       genre = 'country';
-//       break;
-//     default:
-//       res.status(400).json({ msg: "Invalid song number." });
-//       return;
-//   }
-
-//   const prompt = `Suggest one ${genre} song recommendation for someone with the zodiac sign ${zodiacSign}
-//   without explaining why.`;
-
-//   try {
-//     const response = await openai.chat.completions.create({
-//       messages: [{ role: 'user', content: prompt }],
-//       model: 'gpt-3.5-turbo',
-//     });
-
-//     const songRecommendation = response.choices[0].message.content;
-//     res.json({ songRecommendation });
-//   } catch (error) {
-//     console.error("Error generating song recommendation:", error);
-//     res.status(500).json({ msg: "Unable to generate song recommendation at this time." });
-//   }
-// });
-
-///// test /////
 app.post('/song-recommendation', async (req, res) => {
   const { zodiacSign } = req.body;
 
@@ -557,11 +488,14 @@ app.post('/song-recommendation', async (req, res) => {
   }
 });
 
+///// logout /////
+app.get('/logout', async (req, res) => {
+  req.session.destroy();
+  res.render('pages/logout');
+});
 
-  // Authentication Required
-  app.use(auth);
-
-// TODO - Include your API routes here
+// Authentication Required
+app.use(auth);
 
 // *****************************************************
 // <!-- Section 5 : Start Server-->
