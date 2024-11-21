@@ -95,6 +95,11 @@ p1
     border: 2px solid white; 
 }
 
+button:disabled {
+    background-color: gray !important;
+    border: 2px solid black !important;
+}
+
 /* Container for the entire team grid */
 .team-container {
     display: grid;
@@ -227,8 +232,7 @@ font-family: serif;
 
 .button-container{
     display: flex; 
-    justify-content: right; 
-    padding-right: 55px;
-}
-     
-      
+    justify-content: space-between;
+    align-items: center; 
+    padding: 20px;
+}      

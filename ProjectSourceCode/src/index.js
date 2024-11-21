@@ -34,8 +34,8 @@ const hbs = handlebars.create({
 
 // database configuration
 const dbConfig = {
-  host: 'db', // the database server
-  port: 5432, // the database port
+  host: process.env.POSTGRES_HOST, // the database server
+  port: process.env.POSTGRES_PORT || 5432, // the database port
   database: process.env.POSTGRES_DB, // the database name
   user: process.env.POSTGRES_USER, // the user account to connect with
   password: process.env.POSTGRES_PASSWORD, // the password of the user account
@@ -475,6 +475,30 @@ app.post('/addFriend', async (req, res) => {
     }
 });
 
+app.post('/dailyAffirmation', async (req, res) => {
+
+  //if the user has already logged in and generated affirmation
+  if (req.session.dailyAffirmation) {
+    return res.json({ dailyAffirmation: req.session.dailyAffirmation }); //must be wrapped in an object to work 
+  }
+  const sign = req.body.sign;  //how is this working on attribute zodiacSign
+  const prompt = `Give me a daily affirmation for a ${sign} that is about a sentence long.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+    const dailyAffirmation = response.choices[0].message.content;
+    req.session.dailyAffirmation = dailyAffirmation;
+    res.json({ dailyAffirmation });
+  } catch (error) {
+    console.error("Error generating affirmation:", error);
+    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
+  }
+});
+
+
 ///// song rec /////
 app.post('/song-recommendation', async (req, res) => {
   const { zodiacSign } = req.body;
@@ -522,5 +546,5 @@ app.use(auth);
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-module.exports = app.listen(3000);
-console.log('Server is listening on port 3000');
+module.exports = app.listen(5432);
+console.log('Server is listening on port 5432');
