@@ -298,6 +298,9 @@ const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
     Weaknesses: Can be blunt, restless, sometimes overconfident.`],
 ];
 
+app.get('/horoscopes', (req, res) =>{
+  res.json(horoscopes);
+}); 
 
 ///// register get and post /////
 app.get('/register', (req, res) => {
@@ -458,6 +461,42 @@ app.post('/addFriend', async (req, res) => {
     const sessionUsername = req.session.username;
     const userId = await db.query('SELECT user_id FROM users WHERE username = $1;', [sessionUsername]);
     const searchedUser = await db.query('SELECT user_id FROM users WHERE username = $1;', [searchValue]);
+
+    const currUserId = userId[0].user_id;
+    const friendUserId = searchedUser[0].user_id;
+    await db.query('INSERT INTO friendships (user_id, friend_id) VALUES ($1, $2), ($3, $4)', [currUserId, friendUserId, friendUserId, currUserId]);
+
+    res.json({ success: true});
+
+    } catch (error) {
+      console.error('Error adding friend:', error);
+      res.status(500).json({ success: false});
+    }
+});
+
+app.post('/dailyAffirmation', async (req, res) => {
+
+  //if the user has already logged in and generated affirmation
+  if (req.session.dailyAffirmation) {
+    return res.json({ dailyAffirmation: req.session.dailyAffirmation }); //must be wrapped in an object to work 
+  }
+  const sign = req.body.sign;  //how is this working on attribute zodiacSign
+  const prompt = `Give me a daily affirmation for a ${sign} that is about a sentence long.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+    const dailyAffirmation = response.choices[0].message.content;
+    req.session.dailyAffirmation = dailyAffirmation;
+    res.json({ dailyAffirmation });
+  } catch (error) {
+    console.error("Error generating affirmation:", error);
+    res.status(500).json({ msg: "Unable to generate affirmation at this time." });
+  }
+});
+
 
     const currUserId = userId[0].user_id;
     const friendUserId = searchedUser[0].user_id;
