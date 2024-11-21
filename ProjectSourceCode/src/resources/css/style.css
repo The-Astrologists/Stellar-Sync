@@ -95,6 +95,11 @@ p1
     border: 2px solid white; 
 }
 
+button:disabled {
+    background-color: gray !important;
+    border: 2px solid black !important;
+}
+
 /* Container for the entire team grid */
 .team-container {
     display: grid;
