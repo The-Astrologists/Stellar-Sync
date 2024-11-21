@@ -172,7 +172,7 @@ font-family: serif;
     background-color: rgba(0, 0, 0, 0.5); 
     padding: 20px;
     min-height: 100px;
-    position: relative; /* or absolute/fixed if necessary */
+    position: relative !important; 
     z-index: 10;
 }
 
@@ -198,7 +198,7 @@ font-family: serif;
     width: 100%; 
     height: auto;
     border-radius: 50%; 
-    max-width: 250px; 
+    max-width: 150px; 
 }
 
 .image-song-pair p {
