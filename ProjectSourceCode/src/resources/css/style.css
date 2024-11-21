@@ -171,6 +171,9 @@ font-family: serif;
 .transparent-background-grey {
     background-color: rgba(0, 0, 0, 0.5); 
     padding: 20px;
+    min-height: 100px;
+    position: relative; /* or absolute/fixed if necessary */
+    z-index: 10;
 }
 
 .image-container {
@@ -202,7 +205,6 @@ font-family: serif;
     margin-top: 10px;
     text-align: center;
     font-size: 16px;
-    color: black;
     margin-bottom: 0; 
 }
 
