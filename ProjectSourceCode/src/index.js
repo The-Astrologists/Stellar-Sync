@@ -498,18 +498,6 @@ app.post('/dailyAffirmation', async (req, res) => {
 });
 
 
-    const currUserId = userId[0].user_id;
-    const friendUserId = searchedUser[0].user_id;
-    await db.query('INSERT INTO friendships (user_id, friend_id) VALUES ($1, $2), ($3, $4)', [currUserId, friendUserId, friendUserId, currUserId]);
-
-    res.json({ success: true});
-
-    } catch (error) {
-      console.error('Error adding friend:', error);
-      res.status(500).json({ success: false});
-    }
-});
-
 ///// song rec /////
 app.post('/song-recommendation', async (req, res) => {
   const { zodiacSign } = req.body;
