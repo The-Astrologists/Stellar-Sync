@@ -35,7 +35,7 @@ const hbs = handlebars.create({
 // database configuration
 const dbConfig = {
   host: process.env.POSTGRES_HOST, // the database server
-  port: process.env.POSTGRES_PORT || 3000, // the database port
+  port: process.env.POSTGRES_PORT, // the database port
   database: process.env.POSTGRES_DB, // the database name
   user: process.env.POSTGRES_USER, // the user account to connect with
   password: process.env.POSTGRES_PASSWORD, // the password of the user account
@@ -561,5 +561,6 @@ app.use(auth);
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
+const port = 3000;
 module.exports = app.listen(3000);
-console.log('Server is listening on port 3000');
+console.log(`test test testServer is listening on port ${port}`);
