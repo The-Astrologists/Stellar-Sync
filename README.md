@@ -26,4 +26,4 @@ HTML, JSON, Bootstrap, CSS, APIs, Handlebars, Javascript
 - On your local machine, open a terminal and run "docker compose up". By using this command, tests will automatically be run and the results will be displayed in the terminal with the status "X tests passing" or "X tests failed". If the tests are successful, the terminal will display "Server is listening on port 3000" followed by "Database connection successful". To access the code for the test cases, in the file structure navigate to ProjectSourceCode/test/server.spec.js to view the code for tests.
 
 # Link to Stellar Sync:
-
+https://stellar-sync-hggb.onrender.com/landing
