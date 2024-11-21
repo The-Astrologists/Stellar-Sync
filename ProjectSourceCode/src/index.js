@@ -298,7 +298,6 @@ const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
     Weaknesses: Can be blunt, restless, sometimes overconfident.`],
 ];
 
-///// horoscopes /////
 app.get('/horoscopes', (req, res) => {
   res.json(horoscopes);
 });
@@ -473,6 +472,22 @@ app.post('/addFriend', async (req, res) => {
       console.error('Error adding friend:', error);
       res.status(500).json({ success: false});
     }
+});
+
+app.get('/friendsLoad', async (req, res) => {
+  try {
+    const sessionUsername = req.session.username;
+    const userId = await db.query('SELECT user_id FROM users WHERE username = $1;', [sessionUsername]);
+    const currUserId = userId[0].user_id;
+
+    const friends = await db.query('SELECT u.username, u.birthday, u.sign FROM friendships f JOIN users u ON f.friend_id = u.user_id WHERE f.user_id = $1', [currUserId]);
+
+    res.json(friends);
+
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).send("Error loading friends");
+  }
 });
 
 app.post('/dailyAffirmation', async (req, res) => {

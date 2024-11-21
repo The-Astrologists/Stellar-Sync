@@ -206,11 +206,21 @@ font-family: serif;
     background-color: lightgray;
     padding: 10px;
     list-style-type: none;
-    width: 500px;
-    margin: 0 auto; 
+    width: 530px;
+    margin: 0 auto;
     text-align: center;
     }
 
+#friendsList {
+    color: black;
+    font-size: 18px;
+    background-color: lightgray;
+    padding: 10px;
+    list-style-type: none;
+    width: 530px;
+    margin: 0 auto;
+    text-align: center;
+}    
 
 .alert {
     font-family: Georgia, 'Times New Roman', Times, serif; 
