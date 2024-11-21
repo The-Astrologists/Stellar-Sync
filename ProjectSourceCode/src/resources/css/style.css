@@ -168,7 +168,7 @@ font-family: serif;
     background-color: rgba(255, 255, 255, 0.406); 
 }
 
-.transparent-background-grey {
+#songs {
     background-color: rgba(0, 0, 0, 0.5); 
     padding: 20px;
     min-height: 100px;
@@ -176,7 +176,18 @@ font-family: serif;
     z-index: 10;
 }
 
-.image-container {
+.image-container{
+    display: flex;
+    justify-content: center;
+    gap: 250px;
+    max-width: 100%;
+}
+.image-container img{
+    width: 10%;
+    height: auto;
+}
+
+#songs {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap; 
