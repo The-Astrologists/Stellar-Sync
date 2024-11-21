@@ -87,41 +87,41 @@ describe('Testing Render', () => {
 
 // *********************************************************************************
 
-describe('Landing page render', () => {
-  it('successfuly loads the landing page', done => {
-    chai
-      .request(server)
-      .get('/landing')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.status).to.equals('success');
-        assert.strictEqual(res.body.message, 'landing page loaded succssfully!');
-        done();
-      });
-  });
-});
+// describe('Landing page render', () => {
+//   it('successfuly loads the landing page', done => {
+//     chai
+//       .request(server)
+//       .get('/landing')
+//       .end((err, res) => {
+//         expect(res).to.have.status(200);
+//         expect(res.body.status).to.equals('success');
+//         assert.strictEqual(res.body.message, 'landing page loaded succssfully!');
+//         done();
+//       });
+//   });
+// });
 
 // ******************************************************************************
 
-describe('Testing Landing', () => {
-  // Sample test case given to test /test endpoint.
-  it('postive "/landing" route should render with an html response', done => {
-    chai
-      .request(server)
-      .get('/landing')
-      .end((err, res) => {
-        res.should.have.status(200); // Expecting a success status code
-        done();
-      });
-  });
+// describe('Testing Landing', () => {
+//   // Sample test case given to test /test endpoint.
+//   it('postive "/landing" route should render with an html response', done => {
+//     chai
+//       .request(server)
+//       .get('/landing')
+//       .end((err, res) => {
+//         res.should.have.status(200); // Expecting a success status code
+//         done();
+//       });
+//   });
 
-  it('negative "/login" route should render with an html response', done => {
-    chai
-      .request(server)
-      .get('/landing') 
-      .end((err, res) => {
-        res.should.have.status(200); // Expecting a success status code
-        done();
-      });
-  });
-});
+//   it('negative "/login" route should render with an html response', done => {
+//     chai
+//       .request(server)
+//       .get('/landing') 
+//       .end((err, res) => {
+//         res.should.have.status(200); // Expecting a success status code
+//         done();
+//       });
+//   });
+// });

@@ -89,10 +89,11 @@ app.get('/', (req, res) => {
 
 ///// landing page //////
 app.get('/landing', (req, res) => {
-  res.json({status: 'success', message: 'landing page loaded succssfully!'});
   res.render('pages/landing', {
     username: req.session.username,
-  });
+  }); 
+  res.json({status: 'success', message: 'landing page loaded succssfully!'});
+
 });
 
 
