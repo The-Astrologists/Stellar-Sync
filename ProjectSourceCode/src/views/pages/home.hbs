@@ -2,6 +2,7 @@
 
 <div style = "border: 1px solid white; margin-top: 100px; margin-left: 180px; margin-right: 180px; margin-bottom: 100px;">
 
+   {{!-- if tree assigns profile pic based on user sign --}}
    {{#if this.sign}}
       {{#if (eq sign 'Aquarius')}}
          <img align = "left" width = '150' style = " margin-top: 50px; margin-left: 50px; margin-bottom: 10px;" src="../../resources/img/aquarius.jpg" class="rounded-circle" alt="Aquarius profile picture" />
@@ -46,6 +47,7 @@
    <h3 style = "margin-left: 250px; margin-top: 20px; color: white; display: block;"> Sign: {{sign}}</h3>
    <h3 style = "margin-left: 250px; margin-top: 20px; color: white; display: block;"> Birthday: {{birthday}}</h3>
 
+   {{!-- formatting daily horoscope --}}
    <div>
       <div style = "border: 1px solid white; margin-top: 40px; margin-left: 180px; margin-right: 180px; margin-bottom: 50px;">
       <h3 style = "text-align: center;"> About you...</h3>
@@ -54,6 +56,7 @@
    </div>
 </div>
 
+{{!-- formatting for daily horoscope --}}
 <div class = "transparent-background-black"> 
    <img align = "left" width = '400' style = " margin-top: 30px; margin-left: 100px; margin-bottom: 30px;" src="../../resources/img/black_constelations.png" class = "rounded-circle" alt="chart picture" />
       <div style = "border: 1px solid black; margin-top: 100px; margin-left: 600px; margin-right: 180px; text-align: center;">
@@ -64,6 +67,7 @@
    </div>
 </div>
 
+{{!-- formatting for moon images --}}
 <div class = "transparent-background-grey"> 
       <div class="image-container">
          <div class="image-song-pair">
@@ -93,7 +97,7 @@
 </div>
 
 <script>
-
+//function for daily horoscope
    async function loadHoroscopes() {
             try {
                 const response = await fetch('/horoscopes');
@@ -111,7 +115,7 @@
 
 
 
-
+   //daily affirmation function
    async function loadDailyAffirmation(sign) {
 
       const affirmationDisplay = document.getElementById('affirmationDisplay');
@@ -134,7 +138,7 @@
       }
    }
 
-
+   //song recomendations 
    async function fetchSongRecommendation(zodiacSign, songNumber, songDivId) {
       const songDiv = document.getElementById(songDivId);
       songDiv.innerHTML = "<p>Loading song recommendation...</p>";
@@ -157,7 +161,8 @@
          songDiv.innerHTML = `<p>Error: Could not fetch recommendation at this time.</p>`;
       }
    }
-      
+   
+   //load songs when page loads
    window.onload = async function () {
       const zodiacSign = `{{this.sign}}`;
 
