@@ -227,8 +227,7 @@ font-family: serif;
 
 .button-container{
     display: flex; 
-    justify-content: right; 
-    padding-right: 55px;
-}
-     
-      
+    justify-content: space-between;
+    align-items: center; 
+    padding: 20px;
+}      

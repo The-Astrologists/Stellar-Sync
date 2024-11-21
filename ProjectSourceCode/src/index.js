@@ -413,6 +413,7 @@ app.get('/search', async (req, res) => {
   });
 });
 
+
 ///// friends /////
 app.get('/friends', (req, res) => {
   res.render('pages/friends', {
