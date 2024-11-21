@@ -298,6 +298,9 @@ const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
     Weaknesses: Can be blunt, restless, sometimes overconfident.`],
 ];
 
+app.get('/horoscopes', (req, res) => {
+  res.json(horoscopes);
+});
 
 ///// register get and post /////
 app.get('/register', (req, res) => {
