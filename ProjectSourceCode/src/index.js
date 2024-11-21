@@ -417,10 +417,14 @@ app.get('/friends', (req, res) => {
   });
 });
 
-app.get('/friendsAdd', async (req, res) => {
+app.get('/friendsSearch', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
     const sessionUsername = req.session.username;
+
+    if (searchValue === sessionUsername) {
+      return res.status(200).json({ message: 'You cannot search for your own profile.' });
+    }
 
     const userId = await db.query('SELECT user_id FROM users WHERE username = $1;', [sessionUsername]);
     const currUserId = userId[0].user_id;
@@ -431,14 +435,7 @@ app.get('/friendsAdd', async (req, res) => {
     if (searchedUser && searchedUser.length > 0) {
       const searchedUserId = searchedUser[0].user_id;
 
-      const friendshipCheck = await db.query(`
-        SELECT EXISTS (
-          SELECT 1
-          FROM friendships
-          WHERE (user_id = $1 AND friend_id = $2)
-          OR (user_id = $2 AND friend_id = $1)
-        );
-      `, [currUserId, searchedUserId]);
+      const friendshipCheck = await db.query(`SELECT EXISTS (SELECT 1 FROM friendships WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1));`, [currUserId, searchedUserId]);
 
       const isFriends = friendshipCheck[0].exists; 
 
@@ -453,6 +450,25 @@ app.get('/friendsAdd', async (req, res) => {
     console.error('Database query error:', error);
     res.status(500).send("Error loading friends");
   }
+});
+
+app.post('/addFriend', async (req, res) => {
+  try {
+    const searchValue = req.body.username;
+    const sessionUsername = req.session.username;
+    const userId = await db.query('SELECT user_id FROM users WHERE username = $1;', [sessionUsername]);
+    const searchedUser = await db.query('SELECT user_id FROM users WHERE username = $1;', [searchValue]);
+
+    const currUserId = userId[0].user_id;
+    const friendUserId = searchedUser[0].user_id;
+    await db.query('INSERT INTO friendships (user_id, friend_id) VALUES ($1, $2), ($3, $4)', [currUserId, friendUserId, friendUserId, currUserId]);
+
+    res.json({ success: true});
+
+    } catch (error) {
+      console.error('Error adding friend:', error);
+      res.status(500).json({ success: false});
+    }
 });
 
 ///// song rec /////

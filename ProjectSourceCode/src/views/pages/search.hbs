@@ -2,7 +2,7 @@
 <h1>Create Your Constellation of Friends</h1>
 
 
-<form id="form2" action="/friendsAdd" method="GET">
+<form id="form2" action="/friendsSearch" method="GET">
   <div class="search-container">
     <input class="search-bar" type="text" id="searchvalue" name="searchvalue" placeholder="Find friends among the stars...">
     <button type="submit">Search</button>
@@ -20,10 +20,7 @@
     const searchValue = document.getElementById('searchvalue').value;
 
     try {
-      const response = await fetch(`/friendsAdd?searchvalue=${encodeURIComponent(searchValue)}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      const response = await fetch(`/friendsSearch?searchvalue=${encodeURIComponent(searchValue)}`);
 
       const friends = await response.json();
 
@@ -39,7 +36,9 @@
     const friendsList = document.getElementById('searchResults');
     friendsList.innerHTML = ''; 
 
-    if (friends.length === 0) {
+    if (friends.message) {
+      friendsList.innerHTML = `<p>${friends.message}</p>`;
+    } else if (friends.length === 0) {
       friendsList.innerHTML = '<p>No users found.</p>';
     } else {
       const list = document.createElement('ul');
@@ -48,12 +47,58 @@
       friends.forEach(friend => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item';
-        const friendshipStatus = friend.isFriends ? 'You are already friends!' : 'You are not friends yet';
+        const friendshipStatus = friend.isFriends ? 'You are already friends!' : ' ';
         listItem.textContent = "Name: " + friend.username + " --- Sign: " +friend.sign + " --- Birthday: " + friend.birthday.substring(0,10) + " --- " + friendshipStatus;
+
+        if (!friend.isFriends) {
+          const addButton = document.createElement('button');
+          addButton.textContent = 'Add Friend';
+          addButton.className = 'btn btn-primary';
+          addButton.onclick = function () {
+            addFriend(friend.username);
+          };
+          listItem.appendChild(addButton);
+        }
+
         list.appendChild(listItem);
       });
 
       friendsList.appendChild(list);
+    }
+  }
+
+  async function addFriend(username) {
+    try {
+      const response = await fetch('/addFriend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',  
+        },
+        body: JSON.stringify({ username: username }),
+      }); 
+
+      if (!response.ok) {
+        throw new Error('Failed to add friend');
+      }
+
+      const result = await response.json();
+      if (result.success) {
+        const updateFriends = document.querySelectorAll('.list-group-item');
+            
+        updateFriends.forEach(listItem => {
+          const addButton = listItem.querySelector('button');
+          if (addButton) {
+              addButton.disabled = true;
+              addButton.textContent = 'You are now friends';
+          }
+        });
+      } else {
+        alert('Could not add friend.');
+      }
+      
+    } catch (error) {
+      console.error('Error adding friend:', error);
+      alert('An error occurred while adding the friend.');
     }
   }
 </script>
