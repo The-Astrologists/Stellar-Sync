@@ -1,7 +1,7 @@
 {{> header}}
 <h1>Create Your Constellation of Friends</h1>
 
-
+{{!-- search bar --}}
 <form id="form2" action="/friendsSearch" method="GET">
   <div class="search-container">
     <input class="search-bar" type="text" id="searchvalue" name="searchvalue" placeholder="Find friends among the stars...">
@@ -12,7 +12,7 @@
 <p id="output"></p>
 <ul id="searchResults">&star;  &star;  &star;  &star;  &star;</ul>
 
-
+{{!-- functions for adding friends  --}}
 <script>
   document.getElementById('form2').addEventListener('submit', async function (e) {
     e.preventDefault();

@@ -107,6 +107,7 @@ app.get('/login', (req, res) => {
   });
 });
 
+//default users
 app.post('/login', async (req, res) => {
   const user1 = {
     uname: 'JaneDoe',
@@ -239,6 +240,7 @@ function getSign(birthday) {
   return "Unknown"; 
 }
 
+//horoscopes array
 const horoscopes = [ //horoscopes[i][0] is sign, horoscopes[i][1] is horoscope
   ['Capricorn', `Capricorn is the tenth sign of the zodiac, symbolized by the Goat, representing ambition, discipline, and patience. 
     Governed by Saturn, Capricorns are highly responsible, practical, and determined to achieve their long-term goals. 
@@ -420,6 +422,7 @@ app.get('/friends', (req, res) => {
   });
 });
 
+//search functionality
 app.get('/friendsSearch', async (req, res) => {
   try {
     const searchValue = req.query.searchvalue;
@@ -455,6 +458,7 @@ app.get('/friendsSearch', async (req, res) => {
   }
 });
 
+//add friend functionality
 app.post('/addFriend', async (req, res) => {
   try {
     const searchValue = req.body.username;
@@ -474,6 +478,7 @@ app.post('/addFriend', async (req, res) => {
     }
 });
 
+//load friends functionality
 app.get('/friendsLoad', async (req, res) => {
   try {
     const sessionUsername = req.session.username;
@@ -490,6 +495,7 @@ app.get('/friendsLoad', async (req, res) => {
   }
 });
 
+//daily affermation api
 app.post('/dailyAffirmation', async (req, res) => {
 
   //if the user has already logged in and generated affirmation
