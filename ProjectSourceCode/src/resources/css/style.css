@@ -172,7 +172,7 @@ font-family: serif;
 .image-container {
     display: flex;
     justify-content: center; 
-    gap: 250px; 
+    gap: 20%; 
     max-width: 100%; 
   }
 .image-container img {
@@ -183,7 +183,7 @@ font-family: serif;
     margin-top: 50px;
     display: flex;
     justify-content: center; 
-    gap: 338px; 
+    gap: 15%; 
     max-width: 100%; 
  }
  .search-container {
@@ -248,4 +248,23 @@ font-family: serif;
     justify-content: space-between;
     align-items: center; 
     padding: 20px;
-}      
+} 
+
+
+/* For the galaxy image on profile page */
+
+#galaxy-img{
+    display: flex;
+    justify-content: center;
+}
+@media (max-width: 768px) {
+#galaxy-img {
+    width: 50% !important;
+}
+}
+
+@media (min-width: 769px) {
+#galaxy-img {
+    width: 70% !important;
+}
+}
