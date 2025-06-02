@@ -22,7 +22,9 @@ h1{
     background-color: black;
     color: white;
     text-align: center;
-    font-size: 45px;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2rem;
 }
 h2
 {
@@ -216,10 +218,12 @@ font-family: serif;
     background-color: lightgray;
     padding: 10px;
     list-style-type: none;
-    width: 530px;
     margin: 0 auto;
     text-align: center;
-}    
+    margin: 20px auto;
+    max-width: 800px;
+    width: 90%;
+  }
 
 .alert {
     font-family: Georgia, 'Times New Roman', Times, serif; 
