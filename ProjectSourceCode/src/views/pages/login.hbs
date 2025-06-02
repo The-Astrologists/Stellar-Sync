@@ -1,27 +1,32 @@
 {{> header}}
 
-    {{!-- styling for login page --}}
-    <div class="transparent-background-black" style=  "margin-top: 100px; margin-left: 500px; margin-right: 500px; margin-bottom: 200px;">
-      <h5>Login</h5>
+<div class="container my-5">
+  <div class="row justify-content-center" style="padding-top: 5%; padding-bottom: 7%; padding-left: 3%; padding-right: 3%;">
+    <div class="col-12 col-md-8 col-lg-6 transparent-background-black p-4 rounded">
+      <h5 class="text-center" style="padding-top: 0px;">Login</h5>
+      {{> message}}
       <form action="/login" method="POST">
-        <div style= "margin-left: 50px; margin-right: 50px;">
-          <hr style = "color: white;">
+        
+        <div class="mb-3">
           <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required />
+          <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
         </div>
 
-        <div style= "margin-left: 50px; margin-right: 50px; margin-top: 30px;">
+        <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required />
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
         </div>
-        <div class = "button-contianer">
-          <button style= "margin-left: 400px; right; margin-right: 50px; margin-top: 20px; margin-bottom: 10px;" type="submit" class="btn btn-primary">Login</button>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Login</button>
         </div>
       </form>
-        <hr style = "color: white; margin-left: 50px; margin-right: 50px;">
+              <hr style = "color: white; margin-left: 50px; margin-right: 50px;">
         <p style="text-align: center; margin-bottom: 30px; margin-top: 30px;">Don't have an account? 
             <a href="/register" style="color: black;">Register</a>
-</p>
-    {{> message}}
+        </p>
     </div>
-{{> footer}}  
+  </div>
+</div>
+
+{{> footer}}

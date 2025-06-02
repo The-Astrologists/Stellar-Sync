@@ -22,7 +22,9 @@ h1{
     background-color: black;
     color: white;
     text-align: center;
-    font-size: 45px;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2rem;
 }
 h2
 {
@@ -170,7 +172,7 @@ font-family: serif;
 .image-container {
     display: flex;
     justify-content: center; 
-    gap: 250px; 
+    gap: 20%; 
     max-width: 100%; 
   }
 .image-container img {
@@ -181,7 +183,7 @@ font-family: serif;
     margin-top: 50px;
     display: flex;
     justify-content: center; 
-    gap: 338px; 
+    gap: 15%; 
     max-width: 100%; 
  }
  .search-container {
@@ -216,10 +218,12 @@ font-family: serif;
     background-color: lightgray;
     padding: 10px;
     list-style-type: none;
-    width: 530px;
     margin: 0 auto;
     text-align: center;
-}    
+    margin: 20px auto;
+    max-width: 800px;
+    width: 90%;
+  }
 
 .alert {
     font-family: Georgia, 'Times New Roman', Times, serif; 
@@ -244,4 +248,23 @@ font-family: serif;
     justify-content: space-between;
     align-items: center; 
     padding: 20px;
-}      
+} 
+
+
+/* For the galaxy image on profile page */
+
+#galaxy-img{
+    display: flex;
+    justify-content: center;
+}
+@media (max-width: 768px) {
+#galaxy-img {
+    width: 50% !important;
+}
+}
+
+@media (min-width: 769px) {
+#galaxy-img {
+    width: 70% !important;
+}
+}
