@@ -36,7 +36,6 @@ const hbs = handlebars.create({
 const dbConfig = {
   host: process.env.POSTGRES_HOST, // the database server
   // host: 'db', // the database server
-  openai_api_key: process.env.OPENAI_API_KEY, //opneai api
   port: process.env.POSTGRES_PORT, // the database port
   database: process.env.POSTGRES_DB, // the database name
   user: process.env.POSTGRES_USER, // the user account to connect with
