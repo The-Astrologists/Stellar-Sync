@@ -17,7 +17,7 @@ require('dotenv').config();
 app.use(express.json());
 
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 // <!-- Section 2 : Connect to DB -->
